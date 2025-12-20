@@ -66,3 +66,42 @@
         </div>
     </section>
 
+    <!-- UI showcase removed per request -->
+
+    <!-- Quick Stats -->
+    <section class="progress-section" style="max-width:1100px;margin:3rem auto;">
+        <div class="progress-stats">
+            <div class="stat-box enter-on-scroll">
+                <div class="stat-value counter" data-target="2847">0</div>
+                <div class="stat-label">Lives Saved</div>
+            </div>
+            <div class="stat-box enter-on-scroll">
+                <div class="stat-value counter" data-target="52000000">0</div>
+                <div class="stat-label">Amount Raised (৳)</div>
+            </div>
+            <div class="stat-box enter-on-scroll">
+                <div class="stat-value counter" data-target="1256">0</div>
+                <div class="stat-label">Active Cases</div>
+            </div>
+            <div class="stat-box enter-on-scroll">
+                <div class="stat-value counter" data-target="8932">0</div>
+                <div class="stat-label">Active Donors</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Cases by Category Section -->
+    <section class="featured-cases">
+        <div class="container">
+            <h2>Medical Cases by Category</h2>
+            
+            <!-- Category Filter -->
+            <div class="category-filter" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
+                <button class="category-btn active" onclick="filterCategory('all', this)" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid transparent; font-weight: 600; cursor: pointer; transition: all 150ms; background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white;">All Cases</button>
+                <button class="category-btn" onclick="filterCategory('Cancer', this)" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid #e9ecef; font-weight: 600; cursor: pointer; transition: all 150ms; background: transparent;">🔴 Cancer</button>
+                <button class="category-btn" onclick="filterCategory('Heart', this)" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid #e9ecef; font-weight: 600; cursor: pointer; transition: all 150ms; background: transparent;">❤️ Heart Disease</button>
+                <button class="category-btn" onclick="filterCategory('Kidney', this)" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid #e9ecef; font-weight: 600; cursor: pointer; transition: all 150ms; background: transparent;">💧 Kidney Disease</button>
+                <button class="category-btn" onclick="filterCategory('Emergency', this)" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid #e9ecef; font-weight: 600; cursor: pointer; transition: all 150ms; background: transparent;">🚨 Emergency</button>
+                <button class="category-btn" onclick="filterCategory('Surgery', this)" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid #e9ecef; font-weight: 600; cursor: pointer; transition: all 150ms; background: transparent;">🏥 Surgery</button>
+                <button class="category-btn" onclick="filterCategory('Other', this)" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid #e9ecef; font-weight: 600; cursor: pointer; transition: all 150ms; background: transparent;">📋 Other</button>
+            </div>
