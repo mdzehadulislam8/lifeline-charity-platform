@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifeline Charity Platform - Save Lives, Give Hope</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/modern.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="index.html" class="logo">
+                    <span class="logo-mark" ><img src="images/logo-charity-2.png" alt="Lifeline logo"/></span>
+                    <span class="logo-text" >Lifeline</span>
+                    <!-- <span class="logo-tagline" >CHARITY PLATFORM</span> -->
+                </a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="/pages/about.html">About Us</a></li>
+                <li><a href="/pages/blood-donation.html">Blood Donation</a></li>
+                <li><a href="/pages/contact.html">Contact</a></li>
+                <li id="nav-login"><a href="/pages/login.html" class="btn-login">Login</a></li>
+                <li id="nav-signup"><a href="/pages/signup.html" class="btn-signup">Sign Up</a></li>
+                <li id="nav-user" style="display:none; position: relative;">
+                    <a href="#" onclick="showUserMenu(event)" class="btn-login" style="position: relative;">
+                        <span id="user-name">User</span>
+                        <div id="user-menu" class="user-menu" style="display:none;">
+                            <a href="pages/profile.html">My Profile</a>
+                            <a href="submission.html">Submit Case</a>
+                            <a href="lifeline-charity-team-dashboard.html">Lifeline Charity Team Dashboard</a>
+                            <a href="#" onclick="logoutUser()">Logout</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <div class="nav-actions">
+                <button id="themeToggle" class="btn-icon" aria-label="Toggle theme" title="Toggle light / dark">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with 3D Animation -->
+    <section class="hero">
+        <canvas id="heroCanvas"></canvas>
+        <div class="hero-content">
+            <h1>Save Lives — Fast, Transparent, Kind</h1>
+            <p>Support verified medical cases and blood donors in Bangladesh. Every contribution brings hope and healing.</p>
+            <div class="hero-buttons">
+                <a href="/pages/cases.html" class="btn btn-primary">Browse Cases</a>
+                <a href="/pages/blood-donation.html" class="btn btn-secondary">Donate Blood</a>
+                <a href="/pages/signup.html" class="btn btn-outline">Get Involved</a>
+            </div>
+        </div>
+    </section>
+
