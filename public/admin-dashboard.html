@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifeline Charity Team</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 5px rgba(231, 76, 60, 0.3);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loader.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #e74c3c;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .doctor-notes {
+            background: #e3f2fd;
+            border-left: 4px solid #3498db;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            color: #1565c0;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .tab-button {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .case-info {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-buttons button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-heart"></i> Lifeline
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li id="nav-user" style="display:none;">
+                    <a href="#" onclick="showUserMenu(event)" class="btn-nav">
+                        <span id="user-name">User</span>
+                        <div id="user-menu" class="user-menu" style="display:none;">
+                            <a href="pages/profile.html">My Profile</a>
+                            <a href="submission.html">Submit Case</a>
+                            <a href="lifeline-charity-team-dashboard.html">Lifeline Charity Team Dashboard</a>
+                            <a href="admin-dashboard.html">Admin Dashboard</a>
+                            <a href="#" onclick="logoutUser()">Logout</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Admin Dashboard</h1>
+            <p>Review Lifeline Charity Team-approved cases and manage platform content</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('patients')">
+                Patient Cases (<span id="patients-count">0</span>)
+            </button>
+            <button class="tab-button" onclick="switchTab('blood')">
+                Blood Requests (<span id="blood-count">0</span>)
+            </button>
+            <button class="tab-button" onclick="switchTab('published')">
+                Published Cases
+            </button>
+            <button class="tab-button" onclick="switchTab('manage')">
+                Manage Cases
+            </button>
+        </div>
+
+        <!-- Patient Cases Tab -->
+        <div class="tab-content active" id="patients">
+            <div class="loader" id="patientsLoader">
+                <div class="spinner"></div>
+            </div>
+            <div id="patientsList"></div>
+        </div>
+
+        <!-- Blood Requests Tab -->
+        <div class="tab-content" id="blood">
+            <div class="loader" id="bloodLoader">
+                <div class="spinner"></div>
+            </div>
+            <div id="bloodList"></div>
+        </div>
+
+        <!-- Published Cases Tab -->
+        <div class="tab-content" id="published">
+            <div class="loader" id="publishedLoader">
+                <div class="spinner"></div>
+            </div>
+            <div id="publishedList"></div>
+        </div>
+
+        <!-- Manage Cases Tab -->
+        <div class="tab-content" id="manage">
+            <div class="loader" id="manageLoader">
+                <div class="spinner"></div>
+            </div>
+            <div id="manageList"></div>
+        </div>
+    </main>
+
+    <!-- Review Modal -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Review Case</h2>
+                <button class="btn-close" onclick="closeReviewModal()">&times;</button>
+            </div>
+
+            <div id="reviewBody"></div>
+
+            <div class="form-group">
+                <label for="adminNotes">Admin Notes</label>
+                <textarea id="adminNotes" placeholder="Add your admin notes here..."></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-approve" onclick="approveCase()">Approve & Publish</button>
+                <button class="btn-reject" onclick="rejectCase()">Reject Case</button>
+            </div>
+        </div>
+    </div>
+
+     </script>
+</body>
+</html>
