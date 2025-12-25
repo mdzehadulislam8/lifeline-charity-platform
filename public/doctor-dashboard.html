@@ -142,3 +142,545 @@
             border-color: #3498db;
             box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
         }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-actions .btn-approve {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+        }
+
+        .modal-actions .btn-reject {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loader.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .tab-button {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #7f8c8d;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            margin-bottom: -2px;
+        }
+
+        .tab-button.active {
+            color: #3498db;
+            border-bottom-color: #3498db;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <i class="icon-heart"></i> Lifeline
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li id="nav-user" style="display:none;">
+                    <a href="#" onclick="showUserMenu(event)" class="btn-nav">
+                        <span id="user-name">User</span>
+                        <div id="user-menu" class="user-menu" style="display:none;">
+                            <a href="pages/profile.html">My Profile</a>
+                            <a href="submission.html">Submit Case</a>
+                            <a href="doctor-dashboard.html">Lifeline Charity Team Dashboard</a>
+                            <a href="#" onclick="logoutUser()">Logout</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Lifeline Charity Team - Admin Dashboard</h1>
+            <p>Manage patient cases, approvals, and content publishing</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('pending')">
+                Pending Cases (<span id="pending-count">0</span>)
+            </button>
+            <button class="tab-button" onclick="switchTab('approved')">
+                Published Cases (<span id="approved-count">0</span>)
+            </button>
+            <button class="tab-button" onclick="switchTab('manage')">
+                Manage Cases
+            </button>
+        </div>
+
+        <!-- Pending Submissions Tab -->
+        <div class="tab-content active" id="pending">
+            <div class="loader" id="pendingLoader">
+                <div class="spinner"></div>
+            </div>
+            <div id="pendingSubmissions"></div>
+        </div>
+
+        <!-- Approved Submissions Tab -->
+        <div class="tab-content" id="approved">
+            <div class="loader" id="approvedLoader">
+                <div class="spinner"></div>
+            </div>
+            <div id="approvedSubmissions"></div>
+        </div>
+
+        <!-- Manage Cases Tab -->
+        <div class="tab-content" id="manage">
+            <div class="loader" id="manageLoader">
+                <div class="spinner"></div>
+            </div>
+            <div id="manageList"></div>
+        </div>
+    </main>
+
+    <!-- Review Modal -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Review Submission</h2>
+                <button class="btn-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div id="modalBody"></div>
+
+            <div class="form-group">
+                <label for="reviewNotes">Team Notes</label>
+                <textarea id="reviewNotes" placeholder="Add your review notes here..."></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-approve" onclick="approveSubmission()">Approve Case</button>
+                <button class="btn-reject" onclick="rejectSubmission()">Reject Case</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Case Modal -->
+    <div class="modal" id="editCaseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Case Details</h2>
+                <button class="btn-close" onclick="closeEditModal()">&times;</button>
+            </div>
+
+            <form id="editCaseForm">
+                <div class="form-group">
+                    <label for="editCaseTitle">Case Title</label>
+                    <input type="text" id="editCaseTitle" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editCaseCategory">Category</label>
+                    <select id="editCaseCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="Emergency">Emergency</option>
+                        <option value="Surgery">Surgery</option>
+                        <option value="Chronic Disease">Chronic Disease</option>
+                        <option value="Accident">Accident</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editGoalAmount">Goal Amount (৳)</label>
+                    <input type="number" id="editGoalAmount" required min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="editCaseDescription">Description</label>
+                    <textarea id="editCaseDescription" required></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn-approve">Save Changes</button>
+                    <button type="button" class="btn-reject" onclick="closeEditModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Lifeline Charity Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        let currentSubmission = null;
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is doctor
+                if (!user || user.userType !== 'doctor') {
+                alert('You must be a member of the Lifeline Charity Team to access this page');
+                const returnTo = '/doctor-dashboard.html';
+                window.location.href = '/pages/login.html?returnTo=' + encodeURIComponent(returnTo);
+                return;
+            }
+
+            loadPendingSubmissions();
+            loadApprovedSubmissions();
+            loadAllCasesForManagement();
+        });
+
+        // Check if current user is admin
+        function isCurrentUserAdmin() {
+            return user && user.userType === 'admin';
+        }
+
+        async function loadPendingSubmissions() {
+            const loader = document.getElementById('pendingLoader');
+            loader.classList.add('active');
+
+            try {
+                const response = await fetch('/api/doctor/submissions/pending', {
+                    headers: { 'Authorization': Bearer ${token} }
+                });
+
+                if (!response.ok) throw new Error('Failed to load submissions');
+
+                const submissions = await response.json();
+                document.getElementById('pending-count').textContent = submissions.length;
+
+                if (submissions.length === 0) {
+                    document.getElementById('pendingSubmissions').innerHTML = `
+                        <div class="empty-state">
+                            <h3>No Pending Submissions</h3>
+                            <p>All patient submissions have been reviewed.</p>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('pendingSubmissions').innerHTML = submissions.map(sub => `
+                        <div class="submission-card">
+                            <div class="submission-header">
+                                <div>
+                                    <div class="patient-name">${sub.first_name} ${sub.last_name}</div>
+                                    <div class="patient-email">${sub.email}</div>
+                                </div>
+                                <span class="status-badge status-pending">Pending</span>
+                            </div>
+                            <div class="submission-info">
+                                <div class="info-item">
+                                    <div class="info-label">NID</div>
+                                    <div class="info-value">${sub.nid}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Phone</div>
+                                    <div class="info-value">${sub.phone_number || 'N/A'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Medical Condition</div>
+                                    <div class="info-value">${sub.medical_condition || 'N/A'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Submitted</div>
+                                    <div class="info-value">${new Date(sub.submission_date).toLocaleDateString()}</div>
+                                </div>
+                            </div>
+                            <div class="condition-text">
+                                <strong>Current Condition:</strong><br>
+                                ${sub.current_condition}
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-view" onclick="reviewSubmission('${sub.submission_id}')">
+                                    View & Review
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                document.getElementById('pendingSubmissions').innerHTML = `
+                    <div class="empty-state">
+                        <h3>Error Loading Submissions</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                loader.classList.remove('active');
+            }
+        }
+
+        async function loadApprovedSubmissions() {
+            const loader = document.getElementById('approvedLoader');
+            loader.classList.add('active');
+
+            try {
+                const response = await fetch('/api/doctor/submissions/status/approved', {
+                    headers: { 'Authorization': Bearer ${token} }
+                });
+
+                if (!response.ok) throw new Error('Failed to load submissions');
+
+                const submissions = await response.json();
+                document.getElementById('approved-count').textContent = submissions.length;
+
+                if (submissions.length === 0) {
+                    document.getElementById('approvedSubmissions').innerHTML = `
+                        <div class="empty-state">
+                            <h3>No Published Cases</h3>
+                            <p>Cases will be published after approval. They'll show on the homepage.</p>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('approvedSubmissions').innerHTML = submissions.map(sub => `
+                        <div class="submission-card">
+                            <div class="submission-header">
+                                <div>
+                                    <div class="patient-name">${sub.first_name} ${sub.last_name}</div>
+                                    <div class="patient-email">${sub.email}</div>
+                                </div>
+                                <span class="status-badge status-approved">Published</span>
+                            </div>
+                            <div class="submission-info">
+                                <div class="info-item">
+                                    <div class="info-label">Case Title</div>
+                                    <div class="info-value">${sub.case_title || 'N/A'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Category</div>
+                                    <div class="info-value">${sub.category || 'N/A'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Goal Amount</div>
+                                    <div class="info-value">৳ ${formatCurrency(sub.goal_amount || 0)}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Collected</div>
+                                    <div class="info-value">৳ ${formatCurrency(sub.collected_amount || 0)}</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons" style="gap: 0.5rem;">
+                                <button class="btn-view" onclick="openEditCaseModal('${sub.case_id}', '${(sub.case_title || '').replace(/'/g, "\\'")}', '${sub.category || ''}', '${sub.goal_amount || 0}', '${((sub.full_description || '').replace(/'/g, "\\'").replace(/\n/g, "\\n"))}')">✏️ Edit</button>
+                                <button class="btn-reject" onclick="confirmDeleteCase('${sub.case_id}', '${sub.first_name} ${sub.last_name}')">🗑️ Delete</button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Load approved error:', error);
+                document.getElementById('approvedSubmissions').innerHTML = `
+                    <div class="empty-state">
+                        <h3>Published Cases</h3>
+                        <p>Approved cases will appear here.</p>
+                    </div>
+                `;
+            } finally {
+                loader.classList.remove('active');
+            }
+        }
+
+        async function reviewSubmission(submissionId) {
+            try {
+                const response = await fetch(/api/doctor/submissions/${submissionId}, {
+                    headers: { 'Authorization': Bearer ${token} }
+                });
+
+                if (!response.ok) throw new Error('Failed to load submission details');
+
+                currentSubmission = await response.json();
+
+                // Construct proper file paths
+                const prescriptionPath = currentSubmission.prescription_file_path 
+                    ? (currentSubmission.prescription_file_path.startsWith('/') ? currentSubmission.prescription_file_path : '/' + currentSubmission.prescription_file_path)
+                    : null;
+                const nidPath = currentSubmission.nid_file_path 
+                    ? (currentSubmission.nid_file_path.startsWith('/') ? currentSubmission.nid_file_path : '/' + currentSubmission.nid_file_path)
+                    : null;
+
+                document.getElementById('modalBody').innerHTML = `
+                    <div class="submission-info">
+                        <div class="info-item">
+                            <div class="info-label">Patient Name</div>
+                            <div class="info-value">${currentSubmission.first_name} ${currentSubmission.last_name}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Email</div>
+                            <div class="info-value">${currentSubmission.email}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">NID</div>
+                            <div class="info-value">${currentSubmission.nid}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Age</div>
+                            <div class="info-value">${currentSubmission.age || 'N/A'}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Phone</div>
+                            <div class="info-value">${currentSubmission.phone_number}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Address</div>
+                            <div class="info-value">${currentSubmission.address || 'N/A'}</div>
+                        </div>
+                    </div>
+                    <div style="margin: 1rem 0; padding: 1rem; background: #f5f5f5; border-left: 4px solid #3498db; border-radius: 4px;">
+                        <strong>Medical Condition:</strong><br>
+                        ${currentSubmission.medical_condition}
+                    </div>
+                    <div style="margin: 1rem 0; padding: 1rem; background: #f5f5f5; border-left: 4px solid #3498db; border-radius: 4px;">
+                        <strong>Current Condition:</strong><br>
+                        ${currentSubmission.current_condition}
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        ${prescriptionPath ? <a href="${prescriptionPath}" target="_blank" class="btn-view" style="display: inline-block; text-decoration: none; padding: 0.5rem 1rem; background: #3498db; color: white; border-radius: 4px; cursor: pointer;">📄 View Prescription PDF</a> : '<span style="color: #999;">📄 No prescription file</span>'}
+                        ${nidPath ? <a href="${nidPath}" target="_blank" class="btn-view" style="display: inline-block; text-decoration: none; padding: 0.5rem 1rem; background: #3498db; color: white; border-radius: 4px; cursor: pointer; margin-left: 0.5rem;">📄 View NID Document</a> : '<span style="color: #999; margin-left: 0.5rem;">📄 No NID file</span>'}
+                    </div>
+                `;
+
+                document.getElementById('reviewModal').classList.add('active');
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function approveSubmission() {
+            const notes = document.getElementById('reviewNotes').value;
+
+            try {
+                const response = await fetch(/api/doctor/submissions/${currentSubmission.submission_id}/approve, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': Bearer ${token},
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        notes,
+                        caseTitle: currentSubmission.case_title,
+                        category: currentSubmission.category,
+                        goalAmount: currentSubmission.goal_amount,
+                        description: currentSubmission.full_description
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed to approve submission');
+
+                alert('Submission approved and published.');
+                closeModal();
+                loadPendingSubmissions();
+                loadApprovedSubmissions();
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function rejectSubmission() {
+            if (!confirm('Are you sure you want to reject this submission?')) return;
+
+            const notes = document.getElementById('reviewNotes').value;
+
+            try {
+                const response = await fetch(/api/doctor/submissions/${currentSubmission.submission_id}/reject, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': Bearer ${token},
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ notes })
+                });
+
+                if (!response.ok) throw new Error('Failed to reject submission');
+
+                alert('Submission rejected.');
+                closeModal();
+                loadPendingSubmissions();
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(tab).classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('reviewModal').classList.remove('active');
+            document.getElementById('reviewNotes').value = '';
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-BD', { style: 'currency', currency: 'BDT' }).format(amount);
+        }
+
+        function logout(e) {
+            e && e.preventDefault();
+            // Delegate to global logoutUser for consistent behavior
+            if (typeof logoutUser === 'function') {
+                logoutUser();
+            } else {
+                try { localStorage.removeItem('token'); localStorage.removeItem('user'); } catch(e) {}
+                window.location.href = '/pages/login.html';
+            }
+        }
