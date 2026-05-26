@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Need Blood - Submit Blood Case | Lifeline Charity Platform</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/modern.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        .case-form-container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h3 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .blood-type-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .blood-type-group .form-group {
+            margin-bottom: 0;
+        }
+
+        .urgency-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+
+        .urgency-routine {
+            background: #e8f4f8;
+            color: #0288d1;
+        }
+
+        .urgency-urgent {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .urgency-critical {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-submit {
+            flex: 1;
+            padding: 14px 30px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-reset {
+            padding: 14px 30px;
+            background: #ecf0f1;
+            color: #333;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-reset:hover {
+            background: #bdc3c7;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            color: #1565c0;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #e74c3c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn-submit.loading {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .btn-submit.loading:hover {
+            background: #95a5a6;
+            transform: none;
+        }
+
+        @media (max-width: 768px) {
+            .case-form-container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn-submit,
+            .btn-reset {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1>Lifeline Platform</h1>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="blood-donation.html">Blood Donation</a>
+                <a href="patient-blood-case-dashboard.html" class="active">Need Blood</a>
+                <a href="../index.html#contact" onclick="logout(event)">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="case-form-container">
+        <h2 style="color: #e74c3c; margin-bottom: 10px;">Submit Blood Case Request</h2>
+        <p style="color: #666; margin-bottom: 25px;">Fill out the form below to submit your blood requirement. Available donors matching your blood type will be notified.</p>
+
+        <div class="info-box">
+            ℹ️ Your blood case will be visible to donors with matching blood type. They can respond to your request directly.
+        </div>
+
+        <div class="success-message" id="successMessage">
+            ✓ Blood case submitted successfully! Available donors have been notified. Check your dashboard to see responses.
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <form id="bloodCaseForm">
+            <!-- Blood Type Section -->
+            <div class="form-section">
+                <h3>Blood Requirements</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bloodType">Blood Type <span class="required">*</span></label>
+                        <select id="bloodType" name="bloodType" required>
+                            <option value="">Select Blood Type</option>
+                            <option value="O">O</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="AB">AB</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="rhFactor">RH Factor <span class="required">*</span></label>
+                        <select id="rhFactor" name="rhFactor" required>
+                            <option value="">Select RH Factor</option>
+                            <option value="+">Positive (+)</option>
+                            <option value="-">Negative (-)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="unitsNeeded">Units Needed <span class="required">*</span></label>
+                        <input type="number" id="unitsNeeded" name="unitsNeeded" min="1" max="10" placeholder="e.g., 2" required>
+                        <small style="color: #999; margin-top: 5px;">1-10 units (1 unit = 450ml)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateNeededBy">Date Needed By <span class="required">*</span></label>
+                        <input type="datetime-local" id="dateNeededBy" name="dateNeededBy" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Urgency Section -->
+            <div class="form-section">
+                <h3>Urgency Level</h3>
+                
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label for="urgencyLevel">Select Urgency <span class="required">*</span></label>
+                        <select id="urgencyLevel" name="urgencyLevel" required onchange="updateUrgencyBadge()">
+                            <option value="">Select Urgency Level</option>
+                            <option value="routine">Routine (Planned Surgery)</option>
+                            <option value="urgent">Urgent (Within 48 hours)</option>
+                            <option value="critical">Critical (Emergency)</option>
+                        </select>
+                        <div id="urgencyBadge"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location Section -->
+            <div class="form-section">
+                <h3>Location & Hospital</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="location">Location/City <span class="required">*</span></label>
+                        <input type="text" id="location" name="location" placeholder="e.g., Dhaka, Chittagong" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hospitalName">Hospital Name <span class="required">*</span></label>
+                        <input type="text" id="hospitalName" name="hospitalName" placeholder="e.g., Apollo Hospital" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patient Information Section -->
+            <div class="form-section">
+                <h3>Patient Information</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="patientName">Patient Name <span class="required">*</span></label>
+                        <input type="text" id="patientName" name="patientName" placeholder="Full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="patientPhone">Contact Phone <span class="required">*</span></label>
+                        <input type="tel" id="patientPhone" name="patientPhone" placeholder="+880 1XXXXXXXXX" pattern="[0-9\-\+\(\)\s]+" required>
+                    </div>
+                </div>
+
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label for="doctorRecommendation">Doctor's Recommendation (Optional)</label>
+                        <textarea id="doctorRecommendation" name="doctorRecommendation" placeholder="Any doctor's notes or special requirements..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="button-group">
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span id="submitText">Submit Blood Case Request</span>
+                </button>
+                <button type="reset" class="btn-reset">Clear Form</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="../js/blood-case-submission.js"></script>
+</body>
+</html>

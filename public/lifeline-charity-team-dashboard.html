@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifeline Charity Team Dashboard - Lifeline Charity Platform</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/theme-bd.css">
+    <link rel="stylesheet" href="css/theme-ketto.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="css/modern.css">
+    <link rel="stylesheet" href="css/notification-navbar.css">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .submission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .patient-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .patient-email {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #7f8c8d;
+        }
+
+        .empty-state h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-actions .btn-approve {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+        }
+
+        .modal-actions .btn-reject {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loader.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .tab-button {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #7f8c8d;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            margin-bottom: -2px;
+        }
+
+        .tab-button.active {
+            color: #3498db;
+            border-bottom-color: #3498db;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <i class="icon-heart"></i> Lifeline
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li id="nav-user" style="display:none;">
+                    <a href="#" onclick="showUserMenu(event)" class="btn-nav user-avatar">
+                        <div id="user-name"></div>
+                        <div id="user-menu" style="display:none;">
+                            <a href="pages/profile.html">My Profile</a>
+                            <a href="submission.html">Submit Case</a>
+                            <a href="lifeline-charity-team-dashboard.html">Lifeline Charity Team Dashboard</a>
+                            <a href="#" onclick="logoutUser()">Logout</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Lifeline Charity Team - Dashboard</h1>
+            <p>Manage patient cases, approvals, and content publishing</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('pending')">
+                Pending Cases (<span id="pending-count">0</span>)
+            </button>
+            <button class="tab-button" onclick="switchTab('approved')">
+                Published Cases (<span id="approved-count">0</span>)
+            </button>
+            <button class="tab-button" onclick="switchTab('platform')">
+                Platform Fund
+            </button>
+        </div>
+
+        <!-- Pending Submissions Tab -->
+        <div class="tab-content active" id="pending">
+            <div class="loader" id="pendingLoader">
+                <div class="spinner"></div>
+            </div>
+            <div id="pendingSubmissions"></div>
+        </div>
+
+        <!-- Approved Submissions Tab -->
+        <div class="tab-content" id="approved">
+            <div class="loader" id="approvedLoader">
+                <div class="spinner"></div>
+            </div>
+            <div id="approvedSubmissions"></div>
+        </div>
+
+        <!-- Platform Fund Tab -->
+        <div class="tab-content" id="platform">
+            <div class="loader" id="platformLoader">
+                <div class="spinner"></div>
+            </div>
+            <div id="platformSummary" style="margin-bottom:1rem; display:none;"></div>
+            <div id="platformDonations"></div>
+        </div>
+    </main>
+
+    <!-- Review Modal -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Review Submission</h2>
+                <button class="btn-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div id="modalBody"></div>
+
+            <div class="form-group">
+                <label for="reviewNotes">Team Notes</label>
+                <textarea id="reviewNotes" placeholder="Add your review notes here..."></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-approve" onclick="approveSubmission()">Approve Case</button>
+                <button class="btn-reject" onclick="rejectSubmission()">Reject Case</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Case Modal -->
+    <div class="modal" id="editCaseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Case Details</h2>
+                <button class="btn-close" onclick="closeEditModal()">&times;</button>
+            </div>
+
+            <form id="editCaseForm">
+                <div class="form-group">
+                    <label for="editCaseTitle">Case Title</label>
+                    <input type="text" id="editCaseTitle" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editCaseCategory">Category</label>
+                    <select id="editCaseCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="Emergency">Emergency</option>
+                        <option value="Surgery">Surgery</option>
+                        <option value="Chronic Disease">Chronic Disease</option>
+                        <option value="Accident">Accident</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editGoalAmount">Goal Amount (৳)</label>
+                    <input type="number" id="editGoalAmount" required min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="editCaseDescription">Description</label>
+                    <textarea id="editCaseDescription" required></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn-approve">Save Changes</button>
+                    <button type="button" class="btn-reject" onclick="closeEditModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Donate from Platform Modal -->
+    <div class="modal" id="donatePlatformModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Donate from Platform to Patient</h2>
+                <button class="btn-close" onclick="closeDonateFromPlatformModal()">&times;</button>
+            </div>
+
+            <form id="donatePlatformForm" onsubmit="submitPlatformDonation(event)">
+                <div class="form-group">
+                    <label for="donateCase">Select Patient Case</label>
+                    <select id="donateCase" required>
+                        <option value="">Loading cases...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="donateAmount">Amount to Donate (৳)</label>
+                    <input type="number" id="donateAmount" required min="100" step="0.01" placeholder="Enter amount">
+                    <small style="color:#666; display:block; margin-top:0.25rem;">Available: ৳ <span id="platformBalanceText">0.00</span></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="donateComment">Comment (Optional)</label>
+                    <textarea id="donateComment" placeholder="Note for internal tracking..."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn-approve">Donate</button>
+                    <button type="button" class="btn-reject" onclick="closeDonateFromPlatformModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Lifeline Charity Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        let currentSubmission = null;
+        let platformFundRefreshInterval = null;
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is doctor
+                if (!user || user.userType !== 'doctor') {
+                alert('You must be a member of the Lifeline Charity Team to access this page');
+                const returnTo = '/lifeline-charity-team-dashboard.html';
+                window.location.href = '/pages/login.html?returnTo=' + encodeURIComponent(returnTo);
+                return;
+            }
+
+            loadPendingSubmissions();
+            loadApprovedSubmissions();
+            loadAllCasesForManagement();
+            loadPlatformFund();
+            
+            // Auto-refresh platform fund every 30 seconds
+            platformFundRefreshInterval = setInterval(() => {
+                loadPlatformFund();
+            }, 30000);
+
+            // Cross-tab signal: refresh fund when another tab records a platform donation
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'platformFundRefreshAt') {
+                    loadPlatformFund();
+                }
+            });
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (platformFundRefreshInterval) {
+                clearInterval(platformFundRefreshInterval);
+            }
+        });
+
+        // Check if current user is admin
+        function isCurrentUserAdmin() {
+            return user && user.userType === 'admin';
+        }
+
+        async function loadPendingSubmissions() {
+            const loader = document.getElementById('pendingLoader');
+            loader.classList.add('active');
+
+            try {
+                console.log('Loading pending submissions...');
+                console.log('Token:', token ? 'Present' : 'Missing');
+                console.log('User:', user);
+                
+                const response = await fetch('/api/doctor/submissions/pending', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                console.log('API Response Status:', response.status);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('API Error Response:', errorText);
+                    throw new Error(`HTTP ${response.status}: Failed to load submissions`);
+                }
+
+                const submissions = await response.json();
+                console.log('Submissions loaded:', submissions.length, submissions);
+                document.getElementById('pending-count').textContent = submissions.length;
+
+                if (submissions.length === 0) {
+                    document.getElementById('pendingSubmissions').innerHTML = `
+                        <div class="empty-state">
+                            <h3>No Pending Submissions</h3>
+                            <p>All patient submissions have been reviewed.</p>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('pendingSubmissions').innerHTML = submissions.map(sub => `
+                        <div class="submission-card">
+                            <div class="submission-header">
+                                <div>
+                                    <div class="patient-name">${sub.first_name} ${sub.last_name}</div>
+                                    <div class="patient-email">${sub.email}</div>
+                                </div>
+                                <span class="status-badge status-pending">Pending</span>
+                            </div>
+                            <div class="submission-info">
+                                <div class="info-item">
+                                    <div class="info-label">NID</div>
+                                    <div class="info-value">${sub.nid}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Phone</div>
+                                    <div class="info-value">${sub.phone_number || 'N/A'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Medical Condition</div>
+                                    <div class="info-value">${sub.medical_condition || 'N/A'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Submitted</div>
+                                    <div class="info-value">${new Date(sub.submission_date).toLocaleDateString()}</div>
+                                </div>
+                            </div>
+                            <div class="condition-text">
+                                <strong>Current Condition:</strong><br>
+                                ${sub.current_condition}
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-view" onclick="reviewSubmission('${sub.submission_id}')">
+                                    View & Review
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading pending submissions:', error);
+                document.getElementById('pendingSubmissions').innerHTML = `
+                    <div class="empty-state">
+                        <h3>Error Loading Submissions</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                loader.classList.remove('active');
+            }
+        }
+
+        async function loadApprovedSubmissions() {
+            const loader = document.getElementById('approvedLoader');
+            const container = document.getElementById('approvedSubmissions');
+            
+            console.log('=== LOAD APPROVED SUBMISSIONS START ===');
+            loader.classList.add('active');
+            
+            // Clear container immediately
+            container.innerHTML = '<div class="empty-state"><p>Loading published cases...</p></div>';
+
+            try {
+                console.log('Fetching /api/doctor/submissions/status/approved');
+                const response = await fetch('/api/doctor/submissions/status/approved', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+
+                const submissions = await response.json();
+                console.log('Loaded submissions count:', submissions.length);
+                console.log('Submissions:', submissions);
+
+                // Filter out null submissions
+                const validSubmissions = submissions.filter(sub => sub && sub.case_id);
+                console.log('Valid submissions count:', validSubmissions.length);
+
+                document.getElementById('approved-count').textContent = validSubmissions.length;
+
+                if (validSubmissions.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <h3>No Published Cases</h3>
+                            <p>Cases will be published after approval. They'll show on the homepage.</p>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = validSubmissions.map(sub => `
+                        <div class="submission-card" data-case-id="${sub.case_id}">
+                            <div class="submission-header">
+                                <div>
+                                    <div class="patient-name">${sub.first_name || 'Unknown'} ${sub.last_name || ''}</div>
+                                    <div class="patient-email">${sub.email || 'No email'}</div>
+                                </div>
+                                <span class="status-badge status-approved">Published</span>
+                            </div>
+                            <div class="submission-info">
+                                <div class="info-item">
+                                    <div class="info-label">Case Title</div>
+                                    <div class="info-value">${sub.case_title || 'N/A'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Category</div>
+                                    <div class="info-value">${sub.category || 'N/A'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Goal Amount</div>
+                                    <div class="info-value">৳ ${formatCurrency(sub.goal_amount || 0)}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Collected</div>
+                                    <div class="info-value">৳ ${formatCurrency(sub.collected_amount || 0)}</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons" style="gap: 0.5rem;">
+                                <button class="btn-view" onclick="openEditCaseModal('${sub.case_id}', '${(sub.case_title || '').replace(/'/g, "\\'")}', '${sub.category || ''}', '${sub.goal_amount || 0}', '${((sub.full_description || '').replace(/'/g, "\\'").replace(/\n/g, "\\n"))}')">✏️ Edit</button>
+                                <button class="btn-reject" onclick="confirmDeleteCase('${sub.case_id}', '${sub.first_name} ${sub.last_name}')">🗑️ Delete</button>
+                            </div>
+                        </div>
+                    `).join('');
+                    console.log('DOM updated with submissions');
+                }
+                
+                console.log('=== LOAD APPROVED SUBMISSIONS SUCCESS ===');
+            } catch (error) {
+                console.error('=== LOAD APPROVED SUBMISSIONS ERROR ===', error);
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Error Loading Published Cases</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                loader.classList.remove('active');
+            }
+        }
+
+        async function reviewSubmission(submissionId) {
+            try {
+                const response = await fetch(`/api/doctor/submissions/${submissionId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) throw new Error('Failed to load submission details');
+
+                currentSubmission = await response.json();
+
+                // Construct proper file paths
+                const prescriptionPath = currentSubmission.prescription_file_path 
+                    ? (currentSubmission.prescription_file_path.startsWith('/') ? currentSubmission.prescription_file_path : '/' + currentSubmission.prescription_file_path)
+                    : null;
+                const nidPath = currentSubmission.nid_file_path 
+                    ? (currentSubmission.nid_file_path.startsWith('/') ? currentSubmission.nid_file_path : '/' + currentSubmission.nid_file_path)
+                    : null;
+
+                // Fetch medical documents for this case
+                let medicalDocuments = [];
+                if (currentSubmission.case_id) {
+                    try {
+                        const docsResponse = await fetch(`/api/doctor/cases/${currentSubmission.case_id}/documents`, {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        if (docsResponse.ok) {
+                            medicalDocuments = await docsResponse.json();
+                        }
+                    } catch (error) {
+                        console.warn('Could not fetch medical documents:', error);
+                    }
+                }
+
+                // Format document type display names
+                const formatDocType = (type) => {
+                    const typeMap = {
+                        'medicalReport': '📋 Medical Report',
+                        'treatmentEstimate': '💰 Treatment Estimate',
+                        'admissionSlip': '🏥 Admission Slip',
+                        'doctorLetter': '📝 Doctor Letter',
+                        'bankCheque': '🏦 Bank Cheque',
+                        'mobileWallet': '📱 Mobile Wallet Screenshot',
+                        'photo': '📸 Photo',
+                        'video': '🎥 Video'
+                    };
+                    return typeMap[type] || type;
+                };
+
+                // Build documents HTML
+                let documentsHTML = '';
+                if (medicalDocuments && medicalDocuments.length > 0) {
+                    documentsHTML = `
+                        <div style="margin-top: 1.5rem; padding: 1rem; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px;">
+                            <strong style="color: #856404;">📁 Patient Documents (${medicalDocuments.length})</strong>
+                            <div style="margin-top: 0.5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
+                                ${medicalDocuments.map(doc => {
+                                    const docPath = doc.file_path.startsWith('/') ? doc.file_path : '/' + doc.file_path;
+                                    return `
+                                        <a href="${docPath}" target="_blank" 
+                                           style="display: block; padding: 0.75rem; background: white; border: 1px solid #ffc107; border-radius: 4px; text-decoration: none; color: #333; text-align: center; font-size: 0.9rem; transition: all 0.2s;">
+                                            ${formatDocType(doc.document_type)}<br>
+                                            <span style="font-size: 0.8rem; color: #666;">${doc.file_name || 'Document'}</span>
+                                        </a>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                document.getElementById('modalBody').innerHTML = `
+                    <div class="submission-info">
+                        <div class="info-item">
+                            <div class="info-label">Patient Name</div>
+                            <div class="info-value">${currentSubmission.first_name} ${currentSubmission.last_name}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Email</div>
+                            <div class="info-value">${currentSubmission.email}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">NID</div>
+                            <div class="info-value">${currentSubmission.nid}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Age</div>
+                            <div class="info-value">${currentSubmission.age || 'N/A'}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Phone</div>
+                            <div class="info-value">${currentSubmission.phone_number}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Address</div>
+                            <div class="info-value">${currentSubmission.address || 'N/A'}</div>
+                        </div>
+                    </div>
+                    <div style="margin: 1rem 0; padding: 1rem; background: #f5f5f5; border-left: 4px solid #3498db; border-radius: 4px;">
+                        <strong>Medical Condition:</strong><br>
+                        ${currentSubmission.medical_condition}
+                    </div>
+                    <div style="margin: 1rem 0; padding: 1rem; background: #f5f5f5; border-left: 4px solid #3498db; border-radius: 4px;">
+                        <strong>Current Condition:</strong><br>
+                        ${currentSubmission.current_condition}
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <strong>Primary Files:</strong>
+                        <div style="margin-top: 0.5rem;">
+                            ${prescriptionPath ? `<a href="${prescriptionPath}" target="_blank" class="btn-view" style="display: inline-block; text-decoration: none; padding: 0.5rem 1rem; background: #3498db; color: white; border-radius: 4px; cursor: pointer;">📄 View Prescription PDF</a>` : '<span style="color: #999;">📄 No prescription file</span>'}
+                            ${nidPath ? `<a href="${nidPath}" target="_blank" class="btn-view" style="display: inline-block; text-decoration: none; padding: 0.5rem 1rem; background: #3498db; color: white; border-radius: 4px; cursor: pointer; margin-left: 0.5rem;">📄 View NID Document</a>` : '<span style="color: #999; margin-left: 0.5rem;">📄 No NID file</span>'}
+                        </div>
+                    </div>
+                    ${documentsHTML}
+                `;
+
+                document.getElementById('reviewModal').classList.add('active');
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function approveSubmission() {
+            const notes = document.getElementById('reviewNotes').value;
+
+            try {
+                const response = await fetch(`/api/doctor/submissions/${currentSubmission.submission_id}/approve`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        notes,
+                        caseTitle: currentSubmission.case_title,
+                        category: currentSubmission.category,
+                        goalAmount: currentSubmission.goal_amount,
+                        description: currentSubmission.full_description
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed to approve submission');
+
+                alert('Submission approved and published.');
+                closeModal();
+                loadPendingSubmissions();
+                loadApprovedSubmissions();
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function rejectSubmission() {
+            if (!confirm('Are you sure you want to reject this submission?')) return;
+
+            const notes = document.getElementById('reviewNotes').value;
+
+            try {
+                const response = await fetch(`/api/doctor/submissions/${currentSubmission.submission_id}/reject`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ notes })
+                });
+
+                if (!response.ok) throw new Error('Failed to reject submission');
+
+                alert('Submission rejected.');
+                closeModal();
+                loadPendingSubmissions();
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(tab).classList.add('active');
+
+            // Load platform fund when switching to that tab
+            if (tab === 'platform') {
+                loadPlatformFund();
+            }
+        }
+
+        // ===== PLATFORM FUND TAB =====
+        // Allocation tab removed
+
+        async function loadPlatformFund() {
+            const loader = document.getElementById('platformLoader');
+            const summary = document.getElementById('platformSummary');
+            const list = document.getElementById('platformDonations');
+            loader.classList.add('active');
+            summary.style.display = 'none';
+            list.innerHTML = '';
+
+            try {
+                const res = await api.getPlatformFund();
+                if (!res || !res.success) throw new Error(res?.message || 'Failed to load platform fund');
+
+                const balance = Number(res.fund?.balance || 0);
+                const gross = Number((res.totalReceived ?? res.totalDonated) || 0);
+                const disbursed = Number(res.totalDisbursed || 0);
+                const net = Math.max(0, gross - disbursed);
+                
+                // Allocation disabled; no modal or validation needed
+                
+                summary.style.display = 'block';
+                summary.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                        <h3 style="margin:0; color:#2c3e50;">Platform Fund Overview</h3>
+                        <button class="btn-approve" onclick="openDonateFromPlatformModal()" style="padding:0.5rem 1rem;">💝 Donate from Platform to Patient</button>
+                    </div>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:0.75rem; margin-bottom:1rem;">
+                        <div style="padding:1rem; background:#d4edda; border-left:4px solid #28a745; border-radius:8px;">
+                            <div style="color:#155724; font-size:0.85rem; font-weight:600; margin-bottom:0.25rem;">Total Donated to Lifeline</div>
+                            <div style="font-weight:800; font-size:1.4rem; color:#155724;">৳ ${formatCurrency(gross).replace('BDT','').trim()}</div>
+                            <div style="color:#0b534b; font-size:0.8rem; margin-top:0.35rem;">Net available: ৳ ${formatCurrency(net).replace('BDT','').trim()} • Sent to patients: ৳ ${formatCurrency(disbursed).replace('BDT','').trim()}</div>
+                        </div>
+                        <div style="padding:1rem; background:#d1ecf1; border-left:4px solid #17a2b8; border-radius:8px;">
+                            <div style="color:#0c5460; font-size:0.85rem; font-weight:600; margin-bottom:0.25rem;">Available Balance</div>
+                            <div style="font-weight:800; font-size:1.4rem; color:#0c5460;">৳ ${formatCurrency(balance).replace('BDT','').trim()}</div>
+                        </div>
+                    </div>
+                `;
+
+                const donations = Array.isArray(res.recentDonations) ? res.recentDonations : [];
+                // Allocation disabled
+                
+                let donationsHTML = '';
+                if (!donations.length) {
+                    donationsHTML = `<div class="empty-state"><p>No platform donations yet</p></div>`;
+                } else {
+                    donationsHTML = `
+                        <div style="overflow-x:auto;">
+                            <table style="width:100%; border-collapse:collapse;">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:left; padding:0.5rem; border-bottom:2px solid #ecf0f1;">Donor</th>
+                                        <th style="text-align:left; padding:0.5rem; border-bottom:2px solid #ecf0f1;">Amount (৳)</th>
+                                        <th style="text-align:left; padding:0.5rem; border-bottom:2px solid #ecf0f1;">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${donations.map(d => {
+                                        const who = d.is_anonymous ? 'Anonymous' : (d.guest_name || 'Donor');
+                                        const amt = Number(d.amount || 0);
+                                        const when = d.donation_date ? new Date(d.donation_date).toLocaleString() : '';
+                                        return `
+                                            <tr>
+                                                <td style="padding:0.5rem; border-bottom:1px solid #ecf0f1;">${who}</td>
+                                                <td style="padding:0.5rem; border-bottom:1px solid #ecf0f1; color:#28a745; font-weight:600;">+${formatCurrency(amt).replace('BDT','').trim()}</td>
+                                                <td style="padding:0.5rem; border-bottom:1px solid #ecf0f1; color:#666; font-size:0.85rem;">${when}</td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                }
+
+                // Removed allocations HTML
+
+                list.innerHTML = `
+                    <div style="margin-bottom:1rem;">
+                        <button class="tab-button active" id="platformDonationsTab" style="margin-right:0.5rem;">Recent Donations (${donations.length})</button>
+                    </div>
+                    <div id="platformDonationsContent">${donationsHTML}</div>
+                `;
+            } catch (error) {
+                console.error('Platform fund error:', error);
+                summary.style.display = 'block';
+                summary.innerHTML = `
+                    <div style="padding:1rem; background:#fdecea; border-left:4px solid #e74c3c; border-radius:8px;">
+                        <strong style="color:#c0392b;">Failed to load platform fund</strong><br>
+                        <span style="color:#7f8c8d;">${error.message}</span>
+                    </div>
+                `;
+                list.innerHTML = '';
+            } finally {
+                loader.classList.remove('active');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('reviewModal').classList.remove('active');
+            document.getElementById('reviewNotes').value = '';
+        }
+
+        // Donate from Platform controls
+        async function openDonateFromPlatformModal() {
+            const modal = document.getElementById('donatePlatformModal');
+            const select = document.getElementById('donateCase');
+            const balanceText = document.getElementById('platformBalanceText');
+
+            // refresh latest balance before showing
+            try {
+                const fundRes = await api.getPlatformFund();
+                if (fundRes && fundRes.success) {
+                    window.currentPlatformBalance = Number(fundRes.fund?.balance || 0);
+                }
+            } catch (err) {
+                console.warn('Balance refresh failed:', err.message);
+            }
+            balanceText.textContent = formatCurrency(window.currentPlatformBalance || 0).replace('BDT','').trim();
+
+            select.innerHTML = '<option value="">Loading cases...</option>';
+            modal.classList.add('active');
+
+            try {
+                const response = await fetch('/api/cases');
+                if (!response.ok) throw new Error(`Failed to load cases: ${response.status}`);
+                const data = await response.json();
+                const casesList = data.data || data.cases || data || [];
+                const usableCases = casesList.filter(c => c && c.case_id);
+
+                if (!usableCases.length) {
+                    select.innerHTML = '<option value="">No cases available</option>';
+                    return;
+                }
+
+                select.innerHTML = '<option value="">Select a patient case...</option>' + usableCases.map(c => {
+                    const name = `${c.first_name || ''} ${c.last_name || ''}`.trim();
+                    const title = c.case_title || 'Case';
+                    const goal = Number(c.goal_amount || 0);
+                    const collected = Number(c.collected_amount || 0);
+                    const remaining = Math.max(0, goal - collected);
+                    return `<option value="${c.case_id}">${title} - ${name} (Need: ৳${remaining.toLocaleString()})</option>`;
+                }).join('');
+            } catch (error) {
+                console.error('Load cases error:', error);
+                select.innerHTML = `<option value="">Error loading cases: ${error.message}</option>`;
+            }
+        }
+
+        function closeDonateFromPlatformModal() {
+            document.getElementById('donatePlatformModal').classList.remove('active');
+            document.getElementById('donatePlatformForm').reset();
+        }
+
+        async function submitPlatformDonation(e) {
+            e.preventDefault();
+
+            const caseId = document.getElementById('donateCase').value;
+            const amount = Number(document.getElementById('donateAmount').value);
+            const comment = document.getElementById('donateComment').value;
+
+            if (!caseId) {
+                alert('Please select a patient case');
+                return;
+            }
+
+            if (amount <= 0 || amount > (window.currentPlatformBalance || 0)) {
+                alert(`Invalid amount. Available balance: ৳${window.currentPlatformBalance || 0}`);
+                return;
+            }
+
+            try {
+                const response = await api.donateFromPlatformToCase({ caseId, amount, comment });
+                if (response && response.success) {
+                    alert(`Donated ৳${amount.toLocaleString()} to patient from platform`);
+                    closeDonateFromPlatformModal();
+                    try { localStorage.setItem('platformFundRefreshAt', String(Date.now())); } catch (e) {}
+                    await loadPlatformFund();
+                } else {
+                    alert('Donation failed: ' + (response?.message || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Platform donation error:', error);
+                alert('Error: ' + error.message);
+            }
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-BD', { style: 'currency', currency: 'BDT' }).format(amount);
+        }
+
+        function logout(e) {
+            e && e.preventDefault();
+            // Delegate to global logoutUser for consistent behavior
+            if (typeof logoutUser === 'function') {
+                logoutUser();
+            } else {
+                try { localStorage.removeItem('token'); localStorage.removeItem('user'); } catch(e) {}
+                window.location.href = '/pages/login.html';
+            }
+        }
+
+        // ===== OLD ADMIN-ONLY CONTROLS (KEPT FOR BACKWARDS COMPATIBILITY) =====
+        
+        async function editCaseFromDoctor(caseId, patientId) {
+            // Verify admin
+            if (!isCurrentUserAdmin()) {
+                alert('Only admins can edit cases');
+                return;
+            }
+
+            try {
+                const newTitle = prompt('Enter new case title (leave blank to keep current)');
+                if (newTitle === null) return; // User cancelled
+
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = `Bearer ${token}`;
+
+                const body = {};
+                if (newTitle) body.caseTitle = newTitle;
+
+                const resp = await fetch(`/api/admin/cases/${caseId}`, { method: 'PUT', headers, body: JSON.stringify(body) });
+                if (!resp.ok) throw new Error('Failed to update case');
+
+                alert('Case updated successfully');
+                loadApprovedSubmissions();
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+
+        async function deleteCaseFromDoctor(caseId) {
+            // Verify admin
+            if (!isCurrentUserAdmin()) {
+                alert('Only admins can delete cases');
+                return;
+            }
+
+            if (!confirm('Are you sure? This will permanently delete the case and cannot be undone.')) return;
+
+            try {
+                const headers = {};
+                if (token) headers['Authorization'] = `Bearer ${token}`;
+
+                const resp = await fetch(`/api/admin/cases/${caseId}`, { method: 'DELETE', headers });
+                if (!resp.ok) throw new Error('Failed to delete case');
+
+                alert('Case deleted successfully');
+                loadApprovedSubmissions();
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+    </script>
+    <script src="js/navigation.js"></script>
+    <!-- Industrial Notification System -->
+    <script src="/js/industrial-notification-system.js"></script>
+    <script>
+        // Load industrial navbar
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/components/industrial-notification-navbar.html')
+                .then(response => response.text())
+                .then(html => {
+                    const navContainer = document.getElementById('navbar-container');
+                    if (navContainer) {
+                        navContainer.innerHTML = html;
+                        // Reinitialize notification system after navbar loads
+                        if (window.IndustrialNotificationSystem) {
+                            notificationSystemIndustrial = new IndustrialNotificationSystem();
+                            notificationSystemIndustrial.initializeUI();
+                        }
+                    }
+                })
+                .catch(error => console.error('Failed to load navbar:', error));
+        });
+    </script>
+</body>
+</html>

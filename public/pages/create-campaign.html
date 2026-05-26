@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Create Campaign - Lifeline</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/theme-bd.css">
+    <link rel="stylesheet" href="../css/theme-ketto.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .container { max-width:900px; margin:2rem auto; padding:1rem; }
+        .form-group { margin-bottom:1rem; }
+        label { display:block; margin-bottom:.5rem; font-weight:600 }
+        input[type=text], input[type=number], textarea, select { width:100%; padding:.75rem; border-radius:6px; border:1px solid #ddd }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container navbar-brand">
+            <a href="../index.html" class="logo"><img src="../images/logo-charity.svg" style="width:32px;height:32px;border-radius:6px;vertical-align:middle;margin-right:.5rem">Lifeline</a>
+            <ul class="nav-menu">
+                <li id="nav-user" style="display:none;">
+                    <a href="#" onclick="showUserMenu(event)" class="btn-nav user-avatar">
+                        <div id="user-name"></div>
+                        <div id="user-menu" style="display:none;">
+                            <a href="profile.html">My Profile</a>
+                            <a href="campaigns.html">Campaigns</a>
+                            <a href="#" onclick="logoutUser()">Logout</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main class="container">
+        <h1>Create Fundraising Campaign</h1>
+        <p>Fill in details to start a campaign — our team will review and verify before publishing.</p>
+
+        <form id="createCampaignForm">
+            <div class="form-group">
+                <label>Organizer (you)</label>
+                <input type="text" id="organizerName" placeholder="Your full name">
+            </div>
+
+            <div class="form-group">
+                <label>Patient Name *</label>
+                <input type="text" id="patientName" required>
+            </div>
+
+            <div class="form-group">
+                <label>Campaign Title *</label>
+                <input type="text" id="title" required>
+            </div>
+
+            <div class="form-group">
+                <label>Medical Category</label>
+                <select id="category">
+                    <option value="">Select</option>
+                    <option>Cancer</option>
+                    <option>Heart</option>
+                    <option>Kidney</option>
+                    <option>Surgery</option>
+                    <option>Emergency</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Goal Amount (BDT) *</label>
+                <input type="number" id="goalAmount" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label>Hospital Name</label>
+                <input type="text" id="hospitalName">
+            </div>
+
+            <div class="form-group">
+                <label>Brief Description *</label>
+                <textarea id="description" rows="6" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Upload Documents (prescription, reports)</label>
+                <input type="file" id="documents" multiple accept=".pdf,.jpg,.jpeg,.png">
+            </div>
+
+            <button class="btn btn-primary" type="submit">Submit Campaign for Review</button>
+            <div id="formMessage" style="margin-top:1rem"></div>
+        </form>
+    </main>
+
+    <script>
+    document.getElementById('createCampaignForm').addEventListener('submit', async function(e){
+        e.preventDefault();
+        const form = e.target;
+        const data = new FormData();
+        data.append('patientName', document.getElementById('patientName').value);
+        data.append('title', document.getElementById('title').value);
+        data.append('category', document.getElementById('category').value);
+        data.append('goalAmount', document.getElementById('goalAmount').value);
+        data.append('hospitalName', document.getElementById('hospitalName').value);
+        data.append('description', document.getElementById('description').value);
+
+        const docs = document.getElementById('documents').files;
+        for (let i=0;i<docs.length;i++){ data.append('documents', docs[i]); }
+
+        const token = localStorage.getItem('token');
+
+        const res = await fetch('/api/campaigns', { method: 'POST', headers: token ? { 'Authorization': 'Bearer '+token } : {}, body: data });
+        const result = await res.json();
+        const msg = document.getElementById('formMessage');
+        if (res.ok) {
+            msg.innerHTML = '<span style="color:green">Campaign submitted successfully. ID: '+ (result.campaignId||'N/A') +'. Our team will review it shortly.</span>';
+            form.reset();
+        } else {
+            msg.innerHTML = '<span style="color:red">Error: '+ (result.message || 'Submission failed') +'</span>';
+        }
+    });
+    </script>
+    <script src="../js/navigation.js"></script>
+</body>
+</html>

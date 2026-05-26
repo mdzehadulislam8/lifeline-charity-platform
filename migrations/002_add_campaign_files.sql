@@ -1,0 +1,12 @@
+-- Migration: add CAMPAIGN_FILES table to store uploaded document paths
+CREATE TABLE IF NOT EXISTS CAMPAIGN_FILES (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  campaign_id VARCHAR(255),
+  file_path VARCHAR(1024),
+  file_name VARCHAR(255),
+  file_type VARCHAR(100),
+  uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (campaign_id) REFERENCES CAMPAIGNS(campaign_id) ON DELETE CASCADE
+);
+
+ALTER TABLE PATIENT_SUBMISSIONS ADD COLUMN extra_data JSON NULL;

@@ -1,0 +1,482 @@
+/* Tablet Devices (768px and below) */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+
+    /* Navigation */
+    .navbar .container {
+        padding: 0.75rem 15px;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        gap: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-menu.active {
+        max-height: 500px;
+    }
+
+    .nav-menu li {
+        border-bottom: 1px solid #eee;
+    }
+
+    .nav-menu a {
+        display: block;
+        padding: 1rem 15px;
+    }
+
+    /* Hero Section */
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 3rem 0;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .hero-image {
+        display: none;
+    }
+
+    /* Stats */
+    .stats .container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Featured Cases */
+    .cases-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* How It Works */
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Case Details */
+    .case-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Auth Box */
+    .auth-box {
+        padding: 1.5rem;
+    }
+
+    .auth-container {
+        padding: 1rem 0;
+    }
+
+    /* User Type Selector */
+    .user-type-selector {
+        grid-template-columns: 1fr;
+    }
+
+    .type-label small {
+        display: none;
+    }
+
+    /* Form */
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    /* Filters */
+    .filters-container {
+        flex-direction: column;
+    }
+
+    .filter-group,
+    .search-filter {
+        width: 100%;
+        min-width: unset;
+    }
+
+    /* Footer */
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+
+    .social-login {
+        flex-direction: column;
+    }
+
+    /* Blood Info */
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Donors Grid */
+    .donors-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* FAQ */
+    .faq-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Blood Request */
+    .blood-request .container {
+        padding: 0 15px;
+    }
+}
+
+/* Mobile Devices (480px and below) */
+@media (max-width: 480px) {
+    html {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    .container {
+        padding: 0 10px;
+    }
+
+    /* Hero */
+    .hero {
+        padding: 2rem 0;
+    }
+
+    .hero-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .hero-content p {
+        font-size: 0.9rem;
+    }
+
+    /* Stats */
+    .stats {
+        padding: 2rem 0;
+    }
+
+    .stats .container {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    /* Featured Cases */
+    .featured-cases {
+        padding: 2rem 0;
+    }
+
+    /* Case Card */
+    .case-card-header {
+        padding: 1rem;
+        min-height: auto;
+    }
+
+    .case-card-body {
+        padding: 1rem;
+    }
+
+    /* How It Works */
+    .how-it-works {
+        padding: 2rem 0;
+    }
+
+    .step {
+        padding: 1.5rem 1rem;
+    }
+
+    /* CTA */
+    .cta {
+        padding: 2rem 0;
+    }
+
+    .cta h2 {
+        font-size: 1.3rem;
+    }
+
+    .cta p {
+        font-size: 1rem;
+    }
+
+    /* Auth */
+    .auth-box {
+        padding: 1.25rem;
+        max-width: 100%;
+    }
+
+    .auth-page {
+        min-height: auto;
+    }
+
+    .auth-container {
+        padding: 1rem 0;
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 0.65rem 1.25rem;
+        font-size: 0.95rem;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+    }
+
+    .btn-social {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    /* Forms */
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.6rem;
+        font-size: 0.95rem;
+    }
+
+    .form-options {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+
+    /* Page Header */
+    .page-header {
+        padding: 2rem 0;
+    }
+
+    /* Cases Section */
+    .cases-section {
+        padding: 1.5rem 0;
+    }
+
+    .modal-content {
+        padding: 1.25rem;
+    }
+
+    .close {
+        font-size: 1.5rem;
+    }
+
+    /* Navbar */
+    .navbar .container {
+        padding: 0.6rem 10px;
+    }
+
+    .logo {
+        font-size: 1.3rem;
+    }
+
+    .logo i {
+        font-size: 1.5rem;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 2rem 0 0.5rem;
+    }
+
+    .footer-section h4 {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Case Details */
+    .case-details {
+        padding: 1rem 0 2rem;
+    }
+
+    .case-main {
+        padding: 1rem;
+    }
+
+    /* Donation Card */
+    .donation-card,
+    .case-info-card {
+        padding: 1.25rem;
+    }
+
+    /* Filters */
+    .filter-group label {
+        font-size: 0.85rem;
+    }
+
+    .filter-select,
+    .filter-input {
+        font-size: 0.9rem;
+        padding: 0.4rem;
+    }
+
+    /* Modal */
+    .modal-content {
+        width: 95%;
+    }
+
+    /* Blood Info Cards */
+    .info-card i {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .info-card h3 {
+        margin-bottom: 0.75rem;
+    }
+
+    /* Donor Cards */
+    .donor-card {
+        padding: 1rem;
+    }
+
+    .blood-badge {
+        padding: 0.4rem 0.8rem;
+        font-size: 1.2rem;
+    }
+
+    /* Blood Request */
+    .request-form-container {
+        padding: 1.25rem;
+    }
+
+    /* FAQ */
+    .faq {
+        padding: 2rem 0;
+    }
+
+    .faq-item {
+        padding: 1.25rem;
+    }
+
+    .faq-item h4 {
+        font-size: 1rem;
+    }
+
+    /* Pagination */
+    .pagination {
+        gap: 0.3rem;
+    }
+
+    .pagination button {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.9rem;
+    }
+
+    /* User Type Selector */
+    .type-option input + .type-label {
+        padding: 1rem;
+    }
+
+    .type-label i {
+        font-size: 1.5rem;
+    }
+
+    .type-label strong {
+        font-size: 0.9rem;
+    }
+}
+
+/* Very Small Devices (320px and below) */
+@media (max-width: 320px) {
+    html {
+        font-size: 12px;
+    }
+
+    .auth-box {
+        padding: 1rem;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.5rem;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    h2 {
+        font-size: 1rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .navbar,
+    .footer,
+    .filters-container,
+    .btn-donate,
+    .donate-modal,
+    .hero-buttons {
+        display: none;
+    }
+
+    .case-details {
+        padding: 0;
+    }
+
+    .case-details-grid {
+        grid-template-columns: 1fr;
+    }
+}

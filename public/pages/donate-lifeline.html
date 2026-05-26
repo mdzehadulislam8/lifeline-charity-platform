@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate to Lifeline Fund</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/modern.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .donate-page { 
+      min-height: 100vh; 
+      background: linear-gradient(135deg, #fff5f5 0%, #fff 50%, #f0f9ff 100%); 
+      padding: 2rem 1rem; 
+    }
+    .donate-container { 
+      max-width: 900px; 
+      margin: 0 auto; 
+    }
+    .donate-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(255,51,51,0.05), rgba(255,204,0,0.05));
+      border-radius: 16px;
+    }
+    .donate-header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #ff3333, #ffcc00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+      font-weight: 800;
+    }
+    .donate-header p {
+      color: #666;
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .card { 
+      background: #fff; 
+      border-radius: 20px; 
+      padding: 3rem; 
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .fund-summary { 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      padding: 1.5rem 2rem; 
+      background: linear-gradient(135deg, #fff5f5, #fffbf0); 
+      border-radius: 12px; 
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff3333;
+      box-shadow: 0 4px 15px rgba(255,51,51,0.1);
+    }
+    .fund-summary strong {
+      color: #333;
+      font-size: 1.1rem;
+    }
+    #fundBalance {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ff3333, #ffcc00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #333;
+      font-size: 0.95rem;
+    }
+    .form-group input[type="number"],
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      background: #fafafa;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #ff3333;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(255,51,51,0.1);
+    }
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 3rem;
+    }
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    .required {
+      color: #ff3333;
+      font-weight: 700;
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+      cursor: pointer;
+    }
+    .checkbox-group input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #ff3333;
+    }
+    .checkbox-group label {
+      margin: 0;
+      cursor: pointer;
+      font-weight: 500;
+      color: #555;
+    }
+    .submit-btn { 
+      width: 100%; 
+      padding: 1.2rem; 
+      border-radius: 12px; 
+      border: none; 
+      color: #fff; 
+      font-weight: 700; 
+      font-size: 1.1rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff3333, #ffcc00);
+      box-shadow: 0 6px 25px rgba(255,51,51,0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .submit-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+    .submit-btn:hover::after {
+      left: 100%;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 35px rgba(255,51,51,0.4);
+    }
+    .submit-btn i {
+      margin-right: 8px;
+    }
+    .secure-notice {
+      text-align: center;
+      color: #999;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .secure-notice i {
+      color: #27ae60;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #666;
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    .back-link:hover {
+      background: #f8f9fa;
+      color: #ff3333;
+    }
+    #donorFields {
+      background: #fafafa;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+      border: 1px dashed #ddd;
+    }
+    
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      padding: 2rem 1.5rem;
+      border-top: 2px solid #ddd;
+      margin-top: 3rem;
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+      border-radius: 8px;
+    }
+
+    .footer-left, .footer-right {
+      flex: 1;
+    }
+
+    .footer-left p, .footer-right p {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .footer-right {
+      background: rgba(52, 152, 219, 0.08);
+      padding: 1.5rem;
+      border-radius: 8px;
+      border-left: 4px solid #3498db;
+    }
+
+    .dev-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .dev-item {
+      padding: 0.75rem;
+      background: rgba(52, 152, 219, 0.05);
+      border-radius: 6px;
+      border-left: 3px solid #2980b9;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .dev-item strong {
+      color: #2980b9;
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .footer-left a, .footer-right a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .footer-left a:hover, .footer-right a:hover {
+      color: #2980b9;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+      }
+
+      .footer-left, .footer-right {
+        width: 100%;
+      }
+
+      .footer-right {
+        border-left: none;
+        border-top: 4px solid #3498db;
+        padding-top: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <a href="../index.html" class="logo">
+          <span class="logo-mark"><img src="../images/logo-charity-2.png" alt="Lifeline logo"/></span>
+          <span class="logo-text">Lifeline</span>
+        </a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="cases.html">Browse Cases</a></li>
+        <li id="nav-login"><a href="login.html" class="btn-login">Login</a></li>
+        <li id="nav-signup"><a href="signup.html" class="btn-signup">Sign Up</a></li>
+        <li id="nav-user" style="display:none;">
+          <a href="#" onclick="showUserMenu(event)" class="btn-nav user-avatar">
+            <div id="user-name"></div>
+            <div id="user-menu" style="display:none;">
+              <a href="profile.html">My Profile</a>
+              <a href="campaigns.html">Campaigns</a>
+              <a href="#" onclick="logoutUser()">Logout</a>
+            </div>
+          </a>
+        </li>
+      </ul>
+      <div class="nav-actions">
+        <button id="themeToggle" class="btn-icon" aria-label="Toggle theme" title="Toggle light / dark">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="donate-page">
+    <div class="donate-container">
+      <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+      <div class="donate-header">
+        <h1><i class="fas fa-hand-holding-heart"></i> Donate to Lifeline Fund</h1>
+        <p>Your contribution goes to the Lifeline charity pool. The team can allocate these funds to patients in need.</p>
+      </div>
+
+      <div class="card" id="fundCard">
+        <div class="fund-summary" id="fundSummary">
+          <span><strong><i class="fas fa-wallet"></i> Current Fund Balance:</strong></span>
+          <span id="fundBalance">৳0</span>
+        </div>
+        <form id="lifelineDonationForm">
+          <div class="form-group">
+            <label for="donationAmount"><i class="fas fa-money-bill-wave"></i> Donation Amount (BDT) <span class="required">*</span></label>
+            <input type="number" id="donationAmount" name="donationAmount" min="100" step="100" placeholder="Enter amount (Minimum ৳100)" required>
+          </div>
+          <div class="form-group">
+            <label for="paymentMethod"><i class="fas fa-credit-card"></i> Payment Method <span class="required">*</span></label>
+            <select id="paymentMethod" name="paymentMethod" required>
+              <option value="">Select a payment method</option>
+              <option value="card">💳 Credit/Debit Card</option>
+              <option value="bkash">📱 bKash</option>
+              <option value="nagad">📱 Nagad</option>
+              <option value="rocket">📱 Rocket</option>
+              <option value="bank">🏦 Bank Transfer</option>
+            </select>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="anonymousDonation" name="anonymousDonation">
+            <label for="anonymousDonation"><i class="fas fa-user-secret"></i> Donate anonymously</label>
+          </div>
+          <div id="donorFields">
+            <div class="form-group">
+              <label for="donorName"><i class="fas fa-user"></i> Your Name</label>
+              <input type="text" id="donorName" name="donorName" placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+              <label for="donorEmail"><i class="fas fa-envelope"></i> Your Email</label>
+              <input type="email" id="donorEmail" name="donorEmail" placeholder="your.email@example.com">
+            </div>
+            <div class="form-group">
+              <label for="donorMessage"><i class="fas fa-message"></i> Message (Optional)</label>
+              <textarea id="donorMessage" name="donorMessage" placeholder="Leave a message of support..."></textarea>
+            </div>
+          </div>
+          <button type="submit" class="submit-btn"><i class="fas fa-heart"></i> Complete Donation</button>
+          <p class="secure-notice"><i class="fas fa-lock"></i> Your donation is secure and encrypted</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>About Lifeline</h4>
+          <p>Lifeline Charity Platform connects patients in need with compassionate donors worldwide.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="cases.html">Browse Cases</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-left">
+          <p>&copy; 2025 Lifeline Charity Platform. All rights reserved | 
+          <a href="#">Privacy Policy</a> | 
+          <a href="#">Terms of Service</a> | 
+          <a href="#">Contact Us</a></p>
+        </div>
+        <div class="footer-right">
+          <p><strong>Developed by:</strong> Md. Zehadul Islam, Abdullah Al Moin, Abu Hurayra | 
+          <strong>Project:</strong> Lifeline Charity Platform | 
+          <strong>Institute:</strong> Green University of Bangladesh</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      setupNavbar();
+      setupUserAuth();
+      initThemeToggle();
+      await loadFund();
+      setupForm();
+    });
+
+    async function loadFund() {
+      try {
+        const res = await api.getPlatformFund();
+        if (res && res.success && res.fund) {
+          document.getElementById('fundBalance').textContent = '৳' + formatBDT(res.fund.balance || 0);
+        }
+      } catch (e) { console.warn(e); }
+    }
+
+    function setupForm() {
+      const anon = document.getElementById('anonymousDonation');
+      const donorFields = document.getElementById('donorFields');
+      anon.addEventListener('change', () => {
+        donorFields.style.display = anon.checked ? 'none' : 'block';
+      });
+      document.getElementById('lifelineDonationForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const amount = Number(document.getElementById('donationAmount').value || 0);
+        const paymentMethod = document.getElementById('paymentMethod').value;
+        const isAnonymous = document.getElementById('anonymousDonation').checked;
+        const donorName = document.getElementById('donorName').value.trim();
+        const donorEmail = document.getElementById('donorEmail').value.trim();
+        const donorMessage = document.getElementById('donorMessage').value.trim();
+
+        if (!amount || amount < 100) { showNotification('Minimum donation amount is ৳100', 'error'); return; }
+        if (!paymentMethod) { showNotification('Please select a payment method', 'error'); return; }
+        if (!isAnonymous && donorEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(donorEmail)) { showNotification('Please enter a valid email address', 'error'); return; }
+
+        showLoader();
+        const payload = {
+          amount,
+          paymentMethod,
+          isAnonymous,
+          guestName: isAnonymous ? 'Anonymous' : (donorName || null),
+          guestEmail: isAnonymous ? '' : (donorEmail || null),
+          message: donorMessage || null
+        };
+        const resp = await api.makePlatformDonation(payload);
+        hideLoader();
+        if (resp && resp.success) {
+          showNotification('Thank you! Your donation supports the Lifeline fund.', 'success');
+          (document.getElementById('lifelineDonationForm')).reset();
+          await loadFund();
+          try { localStorage.setItem('platformFundRefreshAt', String(Date.now())); } catch (e) {}
+        } else {
+          showNotification(resp?.message || 'Unable to process donation', 'error');
+        }
+      });
+    }
+
+    function formatBDT(n) {
+      try {
+        return new Intl.NumberFormat('en-BD', { style: 'currency', currency: 'BDT', minimumFractionDigits: 0 }).format(Number(n||0)).replace('৳','').trim();
+      } catch { return String(n); }
+    }
+  </script>
+</body>
+</html>

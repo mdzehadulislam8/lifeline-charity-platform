@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Request History - Lifeline Charity Platform</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+        .history-container { margin-top: 2rem; }
+        .request-card { background: #ffffff; border: 1px solid #e9ecef; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .request-status { display: inline-block; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.85rem; margin-bottom: 1rem; }
+        .request-status.pending { background: #fff3cd; color: #856404; }
+        .request-status.accepted { background: #d4edda; color: #155724; }
+        .request-status.rejected { background: #f8d7da; color: #721c24; }
+        .request-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem; }
+        .request-info { margin-bottom: 0.75rem; }
+        .request-info strong { color: #495057; display: block; font-size: 0.9rem; margin-bottom: 0.25rem; }
+        .donor-contact { background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 4px solid #d32f2f; }
+        .donor-contact strong { color: #495057; display: block; margin-bottom: 0.5rem; }
+        .donor-contact a { color: #d32f2f; text-decoration: none; font-weight: 600; }
+        .donor-contact a:hover { text-decoration: underline; }
+        .no-data { text-align: center; padding: 3rem; color: #6c757d; }
+        .no-data i { font-size: 3rem; color: #ccc; margin-bottom: 1rem; display: block; }
+        .filters-section { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .filter-btn { padding: 0.5rem 1rem; border: 2px solid #e9ecef; background: white; border-radius: 6px; cursor: pointer; transition: all 0.3s; }
+        .filter-btn.active { background: #d32f2f; color: white; border-color: #d32f2f; }
+        .badge { display: inline-block; padding: 0.25rem 0.75rem; background: #d32f2f; color: white; border-radius: 20px; font-weight: 600; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="../index.html" class="logo">
+                    <span class="logo-mark"><img src="../images/logo-charity-2.png" alt="Lifeline logo"/></span>
+                    <span class="logo-text">Lifeline</span>
+                </a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-list">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="/pages/cases.html">Cases</a></li>
+                <li><a href="/pages/campaigns.html">Campaigns</a></li>
+                <li><a href="/pages/blood-donation.html">Blood Donation</a></li>
+                <li><a href="/pages/about.html">About</a></li>
+                <li><a href="/pages/contact.html">Contact</a></li>
+                <li><a href="#" id="dashboardLink" style="display: none;">Dashboard</a></li>
+                <li><a href="#" id="logoutLink" style="display: none;">Logout</a></li>
+                <li id="loginLink"><a href="/pages/login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Blood Request History</h1>
+            <p>Track your blood requests and donor information</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="content">
+        <div class="container">
+            <!-- Filter Section -->
+            <div class="filters-section">
+                <button class="filter-btn active" onclick="filterRequests('all')">
+                    All <span class="badge" id="allCount">0</span>
+                </button>
+                <button class="filter-btn" onclick="filterRequests('pending')">
+                    Pending <span class="badge" id="pendingCount">0</span>
+                </button>
+                <button class="filter-btn" onclick="filterRequests('accepted')">
+                    Accepted <span class="badge" id="acceptedCount">0</span>
+                </button>
+                <button class="filter-btn" onclick="filterRequests('rejected')">
+                    Rejected <span class="badge" id="rejectedCount">0</span>
+                </button>
+            </div>
+
+            <!-- History Container -->
+            <div class="history-container" id="historyContainer">
+                <div class="no-data">
+                    <i class="fas fa-inbox"></i>
+                    <p>Loading your blood requests...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Lifeline Charity Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/blood-receiver-history.js"></script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cases - Lifeline Charity Platform</title>
+    <link rel="stylesheet" href="css/modern.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+        .case-item { background: var(--bg-secondary); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: var(--shadow-sm); }
+        .case-item h3 { margin-bottom: 0.5rem; color: var(--text-primary); }
+        .case-status { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; }
+        .status-approved { background: rgba(39, 174, 96, 0.1); color: var(--success); }
+        .status-satisfied { background: rgba(52, 152, 219, 0.1); color: #3498db; }
+        .donation-box { background: linear-gradient(135deg, rgba(211, 47, 47, 0.08), rgba(243, 156, 18, 0.08)); border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem; margin: 1rem 0; }
+        .donation-label { font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .donation-amount { font-size: 1.8rem; font-weight: 800; color: var(--primary); font-family: 'Poppins', system-ui; margin: 0.25rem 0; }
+        .donation-goal { font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.25rem; }
+        .review-section { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 2px solid var(--border-color); }
+        .review-section h4 { color: var(--text-primary); margin-bottom: 0.75rem; font-size: 1rem; }
+        .review-form { display: flex; flex-direction: column; gap: 0.75rem; }
+        .review-form textarea { padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; font-family: inherit; resize: vertical; min-height: 100px; background: var(--bg-primary); color: var(--text-primary); }
+        .review-form button { padding: 0.75rem 1.5rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all var(--transition-fast); }
+        .review-form button:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .review-form button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .success-badge { background: rgba(39, 174, 96, 0.15); border: 1px solid var(--success); color: var(--text-dark); padding: 0.75rem 1rem; border-radius: 8px; margin-top: 0.75rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; }
+        .success-badge strong { font-size: 1rem; }
+        .donors-section { margin-top: 1.5rem; padding: 1rem; background: linear-gradient(135deg, rgba(52, 152, 219, 0.05), rgba(41, 128, 185, 0.05)); border-radius: 10px; border: 1px solid var(--border-color); }
+        .donors-section h5 { margin-bottom: 0.75rem; color: var(--text-primary); font-size: 0.95rem; font-weight: 700; }
+        .donor-item { background: var(--bg-primary); padding: 0.75rem; margin-bottom: 0.5rem; border-radius: 8px; border-left: 3px solid var(--primary); display: flex; justify-content: space-between; align-items: center; }
+        .donor-info { flex: 1; }
+        .donor-name { font-weight: 600; color: var(--text-primary); font-size: 0.9rem; }
+        .donor-amount { color: var(--primary); font-weight: 800; font-size: 0.95rem; }
+        .donor-date { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem; }
+        .donor-thank-btn { padding: 0.4rem 0.8rem; background: var(--primary); color: white; border: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all var(--transition-fast); white-space: nowrap; }
+        .donor-thank-btn:hover { background: var(--primary-dark); transform: scale(1.02); }
+        .thank-you-form { background: var(--bg-primary); padding: 0.75rem; margin-top: 0.5rem; border-radius: 8px; display: flex; flex-direction: column; gap: 0.5rem; }
+        .thank-you-form textarea { padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 6px; font-family: inherit; font-size: 0.85rem; resize: vertical; min-height: 60px; background: var(--bg-primary); color: var(--text-primary); }
+        .thank-you-form button { padding: 0.4rem 0.8rem; background: var(--success); color: white; border: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all var(--transition-fast); }
+        .thank-you-form button:hover { background: #229954; }
+        .no-donors { color: var(--text-secondary); font-size: 0.85rem; font-style: italic; padding: 0.75rem; text-align: center; }
+    </style>
+</head>
+<body>
+
+
+    <!-- Main Content -->
+
+    <div class="profile-container">
+        <div class="dashboard-header">
+            <h1>💼 My Medical Cases</h1>
+            <p>Track your case status and mark as resolved when you've recovered. Your recovery stories inspire others!</p>
+        </div>
+        
+        <div id="casesContainer" style="min-height: 200px;">
+            <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">Loading your cases...</div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        async function loadPatientCases() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'pages/login.html';
+                return;
+            }
+
+            try {
+                const resp = await fetch('/api/cases?userType=patient', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!resp.ok) throw new Error('Failed to load cases');
+                
+                const data = await resp.json();
+                const cases = Array.isArray(data.data) ? data.data : [];
+
+                const container = document.getElementById('casesContainer');
+                if (cases.length === 0) {
+                    container.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-secondary);">No cases found</div>';
+                    return;
+                }
+
+                container.innerHTML = cases.map(c => {
+                    const collected = Number(c.collected_amount || 0);
+                    const goal = Number(c.goal_amount || 1);
+                    const percentage = Math.min(100, (collected / goal) * 100);
+                    return `
+                    <div class="case-item">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                            <div>
+                                <h3>${c.case_title || 'Untitled Case'}</h3>
+                                <span class="case-status status-approved">${c.status || 'pending'}</span>
+                                ${c.patient_satisfied ? '<span class="case-status status-satisfied" style="margin-left: 0.5rem;">✓ Resolved</span>' : ''}
+                            </div>
+                        </div>
+                        <p style="margin: 0.5rem 0; color: var(--text-secondary); font-size: 0.9rem;">${c.medical_condition || 'Medical treatment'}</p>
+                        
+                        <!-- Donation Breakdown -->
+                        <div class="donation-box">
+                            <div class="donation-label">💰 Amount Received</div>
+                            <div class="donation-amount">৳${new Intl.NumberFormat('en-BD').format(collected)}</div>
+                            <div class="donation-goal">Goal: ৳${new Intl.NumberFormat('en-BD').format(goal)} (${Math.round(percentage)}% funded)</div>
+                        </div>
+
+                        <!-- Donors List -->
+                        <div class="donors-section" id="donors-${c.case_id}" style="display: none;">
+                            <h5>👥 People who donated to your case:</h5>
+                            <div id="donors-list-${c.case_id}">Loading donors...</div>
+                        </div>
+                        
+                        ${c.patient_satisfied ? `
+                        <div class="success-badge">
+                            <span>✓</span>
+                            <div>
+                                <strong>Case Resolved</strong><br/>
+                                <span style="font-size: 0.85rem;">Thank you for updating your status.</span>
+                            </div>
+                        </div>
+                        ` : ``}
+                    </div>
+                    <script>
+                        // Load donors for this case
+                        loadCaseDonors('${c.case_id}');
+                    </script>
+                `;
+                }).join('');
+            } catch (err) {
+                console.error('Error loading cases:', err);
+                document.getElementById('casesContainer').innerHTML = '<div style="color: var(--danger); padding: 1rem; text-align: center;">Error loading cases</div>';
+            }
+        }
+
+
+
+        async function loadCaseDonors(caseId) {
+            const token = localStorage.getItem('token');
+            try {
+                const resp = await fetch(`/api/donations?caseId=${caseId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!resp.ok) return;
+                
+                const data = await resp.json();
+                const donations = Array.isArray(data.data) ? data.data : [];
+                
+                const donorsContainer = document.getElementById(`donors-list-${caseId}`);
+                const donorsSection = document.getElementById(`donors-${caseId}`);
+                
+                if (!donorsContainer || !donorsSection) return;
+                
+                if (donations.length === 0) {
+                    donorsContainer.innerHTML = '<div class="no-donors">No donations yet</div>';
+                    return;
+                }
+
+                donorsSection.style.display = 'block';
+                donorsContainer.innerHTML = donations.map(d => {
+                    const donorName = d.is_anonymous ? '🙏 Anonymous Donor' : (d.guest_name || d.donor_name || 'Donor');
+                    const amount = Number(d.amount || 0);
+                    const date = new Date(d.donation_date).toLocaleDateString('en-BD');
+                    
+                    return `
+                        <div class="donor-item">
+                            <div class="donor-info">
+                                <div class="donor-name">${donorName}</div>
+                                <div class="donor-amount">৳${new Intl.NumberFormat('en-BD').format(amount)}</div>
+                                <div class="donor-date">${date}</div>
+                            </div>
+                            <button type="button" class="donor-thank-btn" onclick="toggleThankYouForm(this, '${d.donation_id}', '${donorName.replace(/'/g, "\\'")}')">
+                                Thank You
+                            </button>
+                        </div>
+                        <div class="thank-you-form" id="form-${d.donation_id}" style="display: none;">
+                            <textarea name="message" placeholder="Write a personal thank you message..."></textarea>
+                            <button type="button" onclick="submitThankYouMessage(event, '${d.donation_id}', '${caseId}')">Send Thank You</button>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error('Error loading donors:', err);
+            }
+        }
+
+        function toggleThankYouForm(btn, donationId, donorName) {
+            const form = document.getElementById(`form-${donationId}`);
+            if (form) {
+                const isHidden = form.style.display === 'none';
+                form.style.display = isHidden ? 'block' : 'none';
+                btn.textContent = isHidden ? '✕ Cancel' : 'Thank You';
+                if (isHidden) {
+                    form.querySelector('textarea').focus();
+                }
+            }
+        }
+
+        async function submitThankYouMessage(event, donationId, caseId) {
+                    // After rendering, request donors for each case (avoid embedding <script> tags inside templates)
+                    try {
+                        cases.forEach(c => {
+                            if (c && c.case_id) loadCaseDonors(c.case_id);
+                        });
+                    } catch (e) { console.error('Error loading case donors after render', e); }
+            event.preventDefault();
+            const token = localStorage.getItem('token');
+            const form = document.getElementById(`form-${donationId}`);
+            const message = form.querySelector('textarea').value || 'Thank you for your generous donation!';
+
+            try {
+                const resp = await fetch(`/api/donations/${donationId}/thank-you`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ message })
+                });
+
+                const result = await resp.json();
+                if (resp.ok) {
+                    showNotification('Thank you message sent!', 'success');
+                    form.style.display = 'none';
+                } else {
+                    showNotification(result.message || 'Error sending message', 'error');
+                }
+            } catch (err) {
+                console.error('Error:', err);
+                showNotification('Error sending message', 'error');
+            }
+        }
+
+        // The previous "mark as resolved / lives saved" feature was removed — no client handler needed.
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initThemeToggle();
+            loadPatientCases();
+        });
+    </script>
+    <script src="js/navigation.js"></script>
+    <!-- Industrial Notification System -->
+    <script src="/js/industrial-notification-system.js"></script>
+    <script>
+        // Load industrial navbar
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/components/industrial-notification-navbar.html')
+                .then(response => response.text())
+                .then(html => {
+                    const navContainer = document.getElementById('navbar-container');
+                    if (navContainer) {
+                        navContainer.innerHTML = html;
+                        // Reinitialize notification system after navbar loads
+                        if (window.IndustrialNotificationSystem) {
+                            notificationSystemIndustrial = new IndustrialNotificationSystem();
+                            notificationSystemIndustrial.initializeUI();
+                        }
+                    }
+                })
+                .catch(error => console.error('Failed to load navbar:', error));
+        });
+    </script>
+</body>
+</html>

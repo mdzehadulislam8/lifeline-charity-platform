@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifeline Charity Platform - Save Lives, Give Hope</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/modern.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="index.html" class="logo">
+                    <img src="images/logo-charity-2.png" alt="Lifeline Logo" class="logo-image" style="height: 35px; width: auto;">
+                    <span class="logo-text">Lifeline</span>
+                </a>
+            </div>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="/pages/blood-donation.html" class="nav-link">Blood Donation</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="/pages/login.html" class="btn-login" id="nav-login">Login</a>
+                <a href="/pages/signup.html" class="btn btn-primary btn-sm" id="nav-signup">Sign Up</a>
+                <div id="nav-user" style="display:none;">
+                    <a href="#" onclick="showUserMenu(event)" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--text-primary); padding: 0.5rem 1rem; border-radius: var(--radius-md); transition: all 0.3s ease; cursor: pointer;">
+                        <span id="user-name" style="font-weight: 600; color: var(--text-primary); font-size: 0.9rem;"></span>
+                        <span class="user-avatar" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; background: linear-gradient(135deg, #d32f2f, #f39c12); flex-shrink: 0;"></span>
+                    </a>
+                    <div id="user-menu" style="display:none; position: absolute; top: 100%; right: 0; background: var(--bg-secondary); border-radius: var(--radius-md); box-shadow: var(--shadow-md); min-width: 180px; z-index: 1000;">
+                        <a href="pages/profile.html" style="display: block; padding: var(--sm) var(--md); text-decoration: none; color: var(--text-primary); border-bottom: 1px solid var(--border-color);">My Profile</a>
+                        <a href="/submission.html" style="display: block; padding: var(--sm) var(--md); text-decoration: none; color: var(--text-primary); border-bottom: 1px solid var(--border-color);">Submit Case</a>
+                        <a href="pages/patient-dashboard.html" style="display: block; padding: var(--sm) var(--md); text-decoration: none; color: var(--text-primary); border-bottom: 1px solid var(--border-color);">Dashboard</a>
+                        <a href="#" onclick="logout(event)" style="display: block; padding: var(--sm) var(--md); text-decoration: none; color: var(--primary);">Logout</a>
+                    </div>
+                </div>
+                <button class="btn btn-icon" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with 3D Animation -->
+    <section class="hero">
+        <canvas id="heroCanvas"></canvas>
+        <div class="hero-content">
+            <h1>Save Lives — Fast, Transparent, Kind</h1>
+            <p>Support verified medical cases and blood donors in Bangladesh. Every contribution brings hope and healing.</p>
+            <div class="hero-buttons">
+                <a href="/pages/blood-donation.html" class="btn btn-secondary">Donate Blood</a>
+                <a href="/pages/donate-lifeline.html" class="btn btn-lifeline">
+                    <i class="fas fa-heart"></i>
+                    Donate to Lifeline
+                </a>
+                <a href="/pages/signup.html" class="btn btn-outline">Get Involved</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- UI showcase removed per request -->
+
+    <!-- Quick Stats -->
+    <section class="progress-section" style="max-width:1100px;margin:3rem auto;">
+        <div class="progress-stats">
+            <div class="stat-box enter-on-scroll">
+                <div class="stat-value counter" data-target="2847">0</div>
+                <div class="stat-label">Lives Saved</div>
+            </div>
+            <div class="stat-box enter-on-scroll">
+                <div class="stat-value counter" data-target="52000000">0</div>
+                <div class="stat-label">Amount Raised (৳)</div>
+            </div>
+            <div class="stat-box enter-on-scroll">
+                <div class="stat-value counter" data-target="1256">0</div>
+                <div class="stat-label">Active Cases</div>
+            </div>
+            <div class="stat-box enter-on-scroll">
+                <div class="stat-value counter" data-target="8932">0</div>
+                <div class="stat-label">Active Donors</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Cases by Category Section -->
+    <section class="featured-cases">
+        <div class="container">
+            <h2>Medical Cases by Category</h2>
+            
+            <!-- Category Filter -->
+            <div class="category-filter" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
+                <button class="category-btn active" onclick="filterCategory('all', this)" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid transparent; font-weight: 600; cursor: pointer; transition: all 150ms; background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white;">All Cases</button>
+                <button class="category-btn" onclick="filterCategory('Cancer', this)" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid #e9ecef; font-weight: 600; cursor: pointer; transition: all 150ms; background: transparent;">🔴 Cancer</button>
+                <button class="category-btn" onclick="filterCategory('Heart', this)" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid #e9ecef; font-weight: 600; cursor: pointer; transition: all 150ms; background: transparent;">❤️ Heart Disease</button>
+                <button class="category-btn" onclick="filterCategory('Kidney', this)" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid #e9ecef; font-weight: 600; cursor: pointer; transition: all 150ms; background: transparent;">💧 Kidney Disease</button>
+                <button class="category-btn" onclick="filterCategory('Emergency', this)" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid #e9ecef; font-weight: 600; cursor: pointer; transition: all 150ms; background: transparent;">🚨 Emergency</button>
+                <button class="category-btn" onclick="filterCategory('Surgery', this)" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid #e9ecef; font-weight: 600; cursor: pointer; transition: all 150ms; background: transparent;">🏥 Surgery</button>
+                <button class="category-btn" onclick="filterCategory('Other', this)" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid #e9ecef; font-weight: 600; cursor: pointer; transition: all 150ms; background: transparent;">📋 Other</button>
+            </div>
+
+            <!-- Cases Grid -->
+            <div class="card-grid" id="categoryCases">
+                <div class="case-card-skeleton">
+                    <div class="skeleton-header"></div>
+                    <div class="skeleton-text"></div>
+                    <div class="skeleton-text short"></div>
+                </div>
+                <div class="case-card-skeleton">
+                    <div class="skeleton-header"></div>
+                    <div class="skeleton-text"></div>
+                    <div class="skeleton-text short"></div>
+                </div>
+                <div class="case-card-skeleton">
+                    <div class="skeleton-header"></div>
+                    <div class="skeleton-text"></div>
+                    <div class="skeleton-text short"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="steps-grid">
+                <div class="card" style="text-align: center;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #d32f2f, #f39c12); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: 800; font-size: 1.5rem; color: white;">1</div>
+                    <h3>Register</h3>
+                    <p>Create your account as a patient, donor, or volunteer</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #f39c12, #d32f2f); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: 800; font-size: 1.5rem; color: white;">2</div>
+                    <h3>Browse Cases</h3>
+
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #d32f2f, #c0392b); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: 800; font-size: 1.5rem; color: white;">3</div>
+                    <h3>Donate or Help</h3>
+                    <p>Contribute financially or donate blood to save lives</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #c0392b, #a93226); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: 800; font-size: 1.5rem; color: white;">4</div>
+                    <h3>Track Impact</h3>
+                    <p>Monitor your contribution and see the impact you make</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta" style="background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%); color: white; text-align: center; padding: 4rem 0;">
+        <div class="container">
+            <h2 style="color: white; font-size: 2.5rem; margin-bottom: 1rem;">Ready to Make a Difference?</h2>
+            <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.25rem; margin-bottom: 2rem;">Every contribution, no matter how small, can save a life</p>
+            <a href="/pages/signup.html" class="btn btn-primary btn-large" style="background: white; color: #d32f2f; font-weight: 700;">Get Started Today</a>
+        </div>
+    </section>
+
+    <!-- Developer Team Section -->
+    <section class="team-section" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); padding: 4rem 0;">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Meet The Team</h2>
+            <div class="team-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto;">
+                <div class="team-card" style="background: white; padding: 2rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #d32f2f, #f39c12); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 700;">Z</div>
+                    <h3 style="margin: 0 0 0.5rem 0; font-size: 1.2rem;">Md. Zehadul Islam</h3>
+                    <p style="color: #d32f2f; font-weight: 600; margin: 0.5rem 0;">Lead Developer</p>
+                    <p style="color: #666; font-size: 0.9rem; margin: 0.75rem 0;">Full-stack development & architecture</p>
+                </div>
+                <div class="team-card" style="background: white; padding: 2rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #f39c12, #d32f2f); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 700;">M</div>
+                    <h3 style="margin: 0 0 0.5rem 0; font-size: 1.2rem;">Abdullah Al Moin</h3>
+                    <p style="color: #d32f2f; font-weight: 600; margin: 0.5rem 0;">Backend Developer</p>
+                    <p style="color: #666; font-size: 0.9rem; margin: 0.75rem 0;">Database & API development</p>
+                </div>
+                <div class="team-card" style="background: white; padding: 2rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #d32f2f, #c0392b); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 700;">H</div>
+                    <h3 style="margin: 0 0 0.5rem 0; font-size: 1.2rem;">Abu Hurayra</h3>
+                    <p style="color: #d32f2f; font-weight: 600; margin: 0.5rem 0;">Frontend Developer</p>
+                    <p style="color: #666; font-size: 0.9rem; margin: 0.75rem 0;">UI/UX & client-side development</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About Lifeline</h4>
+                    <p>Lifeline Charity Platform connects patients in need with compassionate donors worldwide.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/pages/about.html">About Us</a></li>
+
+                        <li><a href="/pages/blood-donation.html">Blood Donation</a></li>
+                        <li><a href="/pages/contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-left">
+                    <p>&copy; 2025 Lifeline Charity Platform. All rights reserved | 
+                    <a href="#">Privacy Policy</a> | 
+                    <a href="#">Terms of Service</a> | 
+                    <a href="#">Contact Us</a></p>
+                </div>
+                <div class="footer-right">
+                    <div class="dev-info">
+                        <div class="dev-item">
+                            <strong>👨‍💻 Developed by:</strong><br>
+                            Md. Zehadul Islam, Abdullah Al Moin, Abu Hurayra
+                        </div>
+                        <div class="dev-item">
+                            <strong>📋 Project:</strong><br>
+                            Lifeline Charity Platform
+                        </div>
+                        <div class="dev-item">
+                            <strong>🏫 Institute:</strong><br>
+                            Green University of Bangladesh
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .footer {
+            background: linear-gradient(180deg, #0f1419 0%, #0a0d11 100%);
+            color: #e2e8f0;
+            padding: 3.5rem 1.25rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(56,189,248,0.15);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: #38bdf8;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #e2e8f0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #38bdf8;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(56,189,248,0.15);
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+
+        .footer-left {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-right {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(56,189,248,0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #38bdf8;
+        }
+
+        .dev-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .dev-item {
+            padding: 0.75rem;
+            background: rgba(56,189,248,0.05);
+            border-radius: 6px;
+            border-left: 3px solid #0ea5e9;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .dev-item strong {
+            color: #38bdf8;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .footer-left p, .footer-right p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .footer-left a, .footer-right a {
+            color: #38bdf8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-left a:hover, .footer-right a:hover {
+            color: #0ea5e9;
+            text-decoration: underline;
+        }
+
+        .footer-right strong {
+            color: #38bdf8;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .footer-left, .footer-right {
+                width: 100%;
+            }
+
+            .footer-right {
+                border-left: none;
+                border-top: 3px solid #38bdf8;
+                padding-top: 1rem;
+            }
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/hero-3d.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/animations.js"></script>
+</body>
+</html>

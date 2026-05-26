@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Campaigns - Lifeline</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/theme-bd.css">
+  <link rel="stylesheet" href="../css/theme-ketto.css">
+  <style>
+    .container{max-width:1100px;margin:2rem auto;padding:1rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+    .card{background:#fff;border-radius:8px;padding:1rem;border:1px solid #eee}
+    .card h3{margin:0 0 .5rem 0}
+    .meta{color:#666;font-size:.9rem}
+    .btn{display:inline-block;margin-top:.5rem;padding:.5rem .75rem;background:#d32f2f;color:#fff;border-radius:6px;text-decoration:none}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container navbar-brand">
+      <a href="../index.html" class="logo">Lifeline</a>
+      <ul class="nav-menu">
+        <li id="nav-user" style="display:none;">
+          <a href="#" onclick="showUserMenu(event)" class="btn-nav user-avatar">
+            <div id="user-name"></div>
+            <div id="user-menu" style="display:none;">
+              <a href="profile.html">My Profile</a>
+              <a href="donate.html">Donate</a>
+              <a href="../submission.html">Submit Case</a>
+              <a href="#" onclick="logoutUser()">Logout</a>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <main class="container">
+    <h1>Verified Campaigns</h1>
+    <p class="muted">Browse campaigns vetted by the Lifeline Charity Team.</p>
+    <div id="campaignGrid" class="grid"></div>
+  </main>
+  <script>
+    async function load(){
+      const res = await fetch('/api/campaigns');
+      if(!res.ok){document.getElementById('campaignGrid').innerText='Failed to load'}
+      const data = await res.json();
+      const grid = document.getElementById('campaignGrid');
+      grid.innerHTML = '';
+      (data||[]).forEach(c=>{
+        const div = document.createElement('div'); div.className='card';
+        div.innerHTML = `<h3>${c.title||c.patient_name||'Untitled'}</h3>
+          <div class="meta">${c.category||''} • Goal: ৳${Number(c.goal_amount||0).toLocaleString()}</div>
+          <p style="margin:.5rem 0">${(c.description||'').slice(0,120)}...</p>
+          <div><a class="btn" href="/pages/campaign.html?id=${c.campaign_id}">View & Donate</a></div>`;
+        grid.appendChild(div);
+      })
+    }
+    load();
+  </script>
+  <script src="../js/navigation.js"></script>
+</body>
+</html>

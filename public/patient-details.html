@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Case Details - Lifeline Charity Platform</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/modern.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/theme-bd.css">
+    <link rel="stylesheet" href="css/theme-ketto.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <style>
+        .patient-detail-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .breadcrumb {
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: #7f8c8d;
+            margin: 0 0.5rem;
+        }
+
+        .donor-section {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
+            border-radius: 12px;
+            border: 1px solid #e3f2fd;
+        }
+
+        .donor-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            background: #ffffff;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .donor-card:hover {
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.15);
+            border-color: #3498db;
+            transform: translateY(-2px);
+        }
+
+        .donor-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.95rem;
+        }
+
+        .donor-amount {
+            font-weight: 700;
+            color: #27ae60;
+            font-size: 1rem;
+        }
+
+        .detail-header {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2.5rem;
+            margin-bottom: 2rem;
+            padding: 3rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(52, 152, 219, 0.12),
+                        0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(52, 152, 219, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .detail-header:hover {
+            box-shadow: 0 12px 40px rgba(52, 152, 219, 0.15),
+                        0 2px 8px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .patient-photo {
+            width: 100%;
+            max-width: 280px;
+            height: 280px;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            border-radius: 16px;
+            object-fit: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(52, 152, 219, 0.3),
+                        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .patient-photo::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+            border-radius: 16px;
+            pointer-events: none;
+        }
+
+        .patient-photo:hover {
+            transform: scale(1.02);
+            box-shadow: 0 16px 50px rgba(52, 152, 219, 0.4),
+                        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+        }
+
+        .patient-photo img {
+            width: 100%;
+            height: 100%;
+            border-radius: 13px;
+            transition: transform 0.4s ease;
+        }
+
+        .patient-photo:hover img {
+            transform: scale(1.05);
+        }
+
+        .patient-photo.image {
+            background-size: cover;
+        }
+
+        .patient-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .patient-name-header {
+            margin-bottom: 1rem;
+        }
+
+        .patient-name-header h1 {
+            margin: 0 0 0.5rem 0;
+            color: #1a3a52;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .patient-category {
+            display: inline-block;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .patient-category:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+        }
+
+        .patient-condition-badge {
+            color: #e74c3c;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(231, 76, 60, 0.08);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border-left: 3px solid #e74c3c;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            padding: 1.2rem;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.05) 0%, rgba(41, 128, 185, 0.05) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(52, 152, 219, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(41, 128, 185, 0.1) 100%);
+            border-color: rgba(52, 152, 219, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.1);
+        }
+
+        .info-label {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .progress-section {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(52, 152, 219, 0.12),
+                        0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(52, 152, 219, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .progress-section:hover {
+            box-shadow: 0 12px 40px rgba(52, 152, 219, 0.15),
+                        0 2px 8px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .progress-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .progress-title::before {
+            content: '📊';
+            font-size: 1.3rem;
+        }
+
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f4ff 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(52, 152, 219, 0.15);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.08);
+        }
+
+        .stat-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.15);
+            border-color: rgba(52, 152, 219, 0.3);
+        }
+
+        .stat-value {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #27ae60;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 32px;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(41, 128, 185, 0.1) 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(52, 152, 219, 0.2);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: width 0.5s ease;
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-remaining {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .content-section {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(52, 152, 219, 0.12),
+                        0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(52, 152, 219, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .content-section:hover {
+            box-shadow: 0 12px 40px rgba(52, 152, 219, 0.15),
+                        0 2px 8px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid rgba(52, 152, 219, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-content {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .donor-section {
+            display: none;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(52, 152, 219, 0.12),
+                        0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(52, 152, 219, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .donor-section:hover {
+            box-shadow: 0 12px 40px rgba(52, 152, 219, 0.15),
+                        0 2px 8px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .donor-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .donor-card {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 1.2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #a5d6a7;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.1);
+        }
+
+        .donor-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(46, 125, 50, 0.2);
+        }
+
+        .donor-name {
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: 0.3rem;
+        }
+
+        .donor-amount {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #27ae60;
+        }
+
+        .donation-form {
+            margin-top: 1.5rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.05) 0%, rgba(41, 128, 185, 0.05) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(52, 152, 219, 0.1);
+        }
+
+        .donation-form h3 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.9rem;
+            border: 1px solid rgba(52, 152, 219, 0.2);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.03) 0%, rgba(41, 128, 185, 0.03) 100%);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-donate {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 1.1rem 2.2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-donate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-donate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(39, 174, 96, 0.4);
+        }
+
+        .btn-donate:hover::before {
+            left: 100%;
+        }
+
+        .btn-donate:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.85rem 1.8rem;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(52, 152, 219, 0.3);
+        }
+
+        .loader {
+            display: none !important;
+            text-align: center;
+            padding: 4rem 2rem;
+            animation: fadeIn 0.3s ease;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .loader.active {
+            display: block !important;
+            opacity: 1;
+        }
+
+        #content {
+            display: none !important;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #content.active {
+            display: block !important;
+            opacity: 1;
+        }
+
+        .spinner {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto;
+        }
+
+        .spinner::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 4px solid rgba(52, 152, 219, 0.1);
+            border-radius: 50%;
+        }
+
+        .spinner::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 4px solid transparent;
+            border-top: 4px solid #3498db;
+            border-right: 4px solid #2980b9;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .detail-header {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .donor-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="/index.html" class="logo">
+                    <i class="fas fa-heart" aria-hidden="true"></i>
+                    <span class="logo-text">Lifeline</span>
+                </a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/pages/cases.html">Cases</a></li>
+                <li><a href="/pages/blood-donation.html">Blood Donors</a></li>
+                <li><a href="/pages/about.html">About</a></li>
+                <li id="nav-login" style="display:none;"><a href="/pages/login.html" class="btn-login">Login</a></li>
+                <li id="nav-signup" style="display:none;"><a href="/pages/signup.html" class="btn-signup">Sign Up</a></li>
+                <li id="nav-user" style="display:none;">
+                    <a href="#" onclick="showUserMenu(event)" class="btn-nav user-avatar">
+                        <div id="user-name"></div>
+                        <div id="user-menu" style="display:none;">
+                            <a href="pages/profile.html">My Profile</a>
+                            <a href="/submission.html">Submit Case</a>
+                            <a href="/lifeline-charity-team-dashboard.html">Lifeline Charity Team Dashboard</a>
+                            <a href="#" onclick="logoutUser()">Logout</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="patient-detail-container">
+        <a href="/index.html" class="btn-back">← Back to Home</a>
+
+        <div class="loader" id="loader">
+            <div class="spinner"></div>
+        </div>
+
+        <div id="content">
+            <!-- Patient Header -->
+            <div class="detail-header">
+                <div id="photoContainer" class="patient-photo">👤</div>
+                <div class="patient-info">
+                    <div class="patient-name-header">
+                        <h1 id="patientName">Loading...</h1>
+                        <div id="patientCategory" class="patient-category">General</div>
+                        <div class="patient-condition-badge" id="patientCondition">Medical Condition</div>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Age</div>
+                            <div class="info-value" id="patientAge">--</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Phone</div>
+                            <div class="info-value" id="patientPhone">--</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Location</div>
+                            <div class="info-value" id="patientAddress">--</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Case ID</div>
+                            <div class="info-value" id="caseId">--</div>
+                        </div>
+                    </div>
+
+                    <div class="section-content" id="patientCurrentCondition">
+                        <strong>Current Condition:</strong> Loading...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <div class="progress-title">Fundraising Progress</div>
+                
+                <div class="progress-stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="collectedAmount">৳0</div>
+                        <div class="stat-label">Collected</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="remainingAmount">৳0</div>
+                        <div class="stat-label">Remaining</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="progressPercent">0%</div>
+                        <div class="stat-label">Progress</div>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar" style="width: 0%">
+                        <span id="progressText">0%</span>
+                    </div>
+                </div>
+
+                <div class="progress-remaining">
+                    <strong>Total Target:</strong> <span id="goalAmount">৳0</span>
+                </div>
+            </div>
+
+            <!-- Recent Donors Section -->
+            <div class="content-section">
+                <div class="section-title">Recent Donors</div>
+                <div id="donorsList" style="margin-top: 1rem;">
+                    <p style="color: #7f8c8d;">No donations yet. Be the first to help!</p>
+                </div>
+            </div>
+
+            <!-- Case Description -->
+            <div class="content-section">
+                <div class="section-title">About This Case</div>
+                <div class="section-content" id="caseDescription">
+                    Loading case details...
+                </div>
+            </div>
+
+            <!-- Medical Details -->
+            <div class="content-section">
+                <div class="section-title">Medical Information</div>
+                <div class="section-content" id="medicalInfo">
+                    Loading medical information...
+                </div>
+            </div>
+
+            <!-- Donors Section -->
+            <div class="content-section">
+                <div class="section-title">Recent Donors</div>
+                <div id="donorsList" style="margin-top: 1rem;">
+                    <p style="color: #7f8c8d;">No donations yet. Be the first to help!</p>
+                </div>
+            </div>
+
+            <!-- Donation Form Section -->
+            <div class="content-section">
+                <div class="section-title">Make a Donation</div>
+                <div class="section-content">
+                    <form id="donationForm">
+                        <div class="form-group">
+                            <label for="donationAmount" class="required">Donation Amount (BDT)</label>
+                            <input type="number" id="donationAmount" name="donationAmount" min="100" step="100" placeholder="Minimum BDT 100" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="paymentMethod">Payment Method</label>
+                            <select id="paymentMethod" name="paymentMethod">
+                                <option value="card">Credit/Debit Card (Stripe)</option>
+                                <option value="bkash">bKash (Mobile Wallet)</option>
+                                <option value="nagad">Nagad (Mobile Wallet)</option>
+                                <option value="rocket">Rocket (Mobile Wallet)</option>
+                                <option value="bank">Bank Transfer</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="donorName">Your Name (Optional)</label>
+                            <input type="text" id="donorName" name="donorName" placeholder="Leave blank for anonymous donation">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="donorEmail">Your Email (Optional)</label>
+                            <input type="email" id="donorEmail" name="donorEmail" placeholder="We'll send you a receipt">
+                        </div>
+
+                        <button type="submit" class="btn-donate">Donate Now</button>
+                    </form>
+                    <div id="paymentInstructions" style="display:none; margin-top:1rem; background:#fff; padding:1rem; border-radius:6px; border:1px solid #e0e0e0;">
+                        <div id="instructionsText" style="margin-bottom:0.75rem; color:#333;"></div>
+                        <button id="confirmPaymentBtn" class="btn-donate" style="background:linear-gradient(135deg,#2980b9,#1f78b4);">I Have Paid - Confirm</button>
+                        <button id="cancelPaymentBtn" class="btn-donate" style="background:#95a5a6; margin-top:0.5rem;">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Lifeline Charity Platform. All rights reserved.</p>
+            <p>Helping those in need, one case at a time.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/navigation.js"></script>
+    <script>
+        const caseId = new URLSearchParams(window.location.search).get('case');
+        const token = localStorage.getItem('token');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show loader
+            document.getElementById('loader').classList.add('active');
+            
+            if (!caseId) {
+                document.getElementById('loader').classList.remove('active');
+                document.getElementById('content').classList.add('active');
+                document.getElementById('content').innerHTML = '<p>Case not found. <a href="/pages/cases.html">Go back to cases</a></p>';
+                return;
+            }
+
+            loadCaseDetails();
+        });
+
+        async function loadCaseDetails() {
+            try {
+                const response = await fetch(`/api/cases/${caseId}`);
+                if (!response.ok) throw new Error('Failed to load case');
+
+                const result = await response.json();
+                const caseData = result.data;
+
+                // Fetch donations to calculate accurate collected amount
+                let collectedFromDonations = 0;
+                try {
+                    const donResp = await fetch(`/api/donations?caseId=${caseId}`);
+                    if (donResp.ok) {
+                        const donData = await donResp.json();
+                        const donations = (donData && donData.data) ? donData.data : [];
+                        collectedFromDonations = donations.reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
+                    }
+                } catch (err) {
+                    console.warn('Failed to fetch donations for progress:', err);
+                }
+
+                // Update all fields with safe fallbacks
+                const patientName = [caseData.first_name, caseData.last_name].filter(Boolean).join(' ') || 'Patient';
+                document.getElementById('patientName').textContent = patientName;
+                document.getElementById('patientCategory').textContent = caseData.category || 'Healthcare';
+                document.getElementById('patientCondition').textContent = caseData.medical_condition || caseData.category || 'Healthcare';
+                document.getElementById('patientAge').textContent = caseData.age || '--';
+                document.getElementById('patientPhone').textContent = caseData.phone_number || '--';
+                document.getElementById('patientAddress').textContent = caseData.address || '--';
+                document.getElementById('caseId').textContent = caseData.case_id;
+                
+                const currentCondition = caseData.current_condition || 'Treatment ongoing';
+                document.getElementById('patientCurrentCondition').innerHTML = `<strong>Current Condition:</strong> ${currentCondition}`;
+                
+                document.getElementById('caseDescription').textContent = caseData.full_description || 'Case details not available';
+                document.getElementById('medicalInfo').innerHTML = `
+                    <strong>Condition:</strong> ${caseData.medical_condition || caseData.category || 'Healthcare'}<br>
+                    <strong>Case Title:</strong> ${caseData.case_title || 'Healthcare Case'}<br>
+                    <strong>Status:</strong> ${caseData.status || 'Approved'}
+                `;
+
+                // Update progress (use collected amount from donations plus any from caseData)
+                const caseDataCollected = Number(caseData.donated_total ?? caseData.collected_amount ?? 0) || 0;
+                const collected = Math.max(collectedFromDonations, caseDataCollected);
+                const goal = Number(caseData.goal_amount ?? 300000) || 300000;
+                const percentage = goal > 0 ? Math.round((collected / goal) * 100) : 0;
+
+                document.getElementById('collectedAmount').textContent = formatCurrencyDisplay(collected);
+                document.getElementById('goalAmount').textContent = formatCurrencyDisplay(goal);
+                document.getElementById('remainingAmount').textContent = formatCurrencyDisplay(Math.max(0, goal - collected));
+                document.getElementById('progressPercent').textContent = percentage + '%';
+
+                const progressBar = document.getElementById('progressBar');
+                progressBar.style.width = Math.min(100, percentage) + '%';
+                document.getElementById('progressText').textContent = percentage + '%';
+
+                // Set patient / case photo: prefer case-specific image, then any available profile photo
+                const photoCandidates = [
+                    caseData.case_image_path,
+                    caseData.case_image,
+                    caseData.image_url,
+                    caseData.image,
+                    caseData.cover_image,
+                    caseData.cover_photo,
+                    caseData.thumbnail_url,
+                    caseData.thumbnail,
+                    caseData.photo_path,
+                    caseData.photo,
+                    caseData.picture,
+                    caseData.avatar
+                ].filter(Boolean);
+
+                const normalizePhotoPath = (p) => {
+                    if (!p) return null;
+                    let val = String(p).trim();
+                    if (!val || /default-patient\.jpg/i.test(val)) return null;
+                    if (/^https?:\/\//i.test(val)) return val;
+                    val = val.replace(/\\/g, '/');
+                    if (/public\/?uploads/i.test(val)) {
+                        val = val.split(/public\/?uploads/i)[1] || val;
+                        val = val.startsWith('/') ? '/uploads' + val : '/uploads/' + val;
+                    } else if (val.startsWith('uploads')) {
+                        val = val.startsWith('/') ? val : '/' + val;
+                    } else if (!val.startsWith('/')) {
+                        // bare filename: assume campaign uploads folder
+                        val = '/uploads/campaigns/' + val;
+                    }
+                    return val;
+                };
+
+                const photoPath = normalizePhotoPath(photoCandidates.find(Boolean));
+
+                // Always keep the container and swap only its content so sizing stays intact
+                const photoContainer = document.getElementById('photoContainer');
+                const renderPlaceholder = () => {
+                    photoContainer.innerHTML = '<div class="patient-photo image" style="background: linear-gradient(135deg, #d32f2f 0%, #f39c12 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 5rem;">👤</div>';
+                };
+
+                if (photoPath) {
+                    photoContainer.innerHTML = `<img src="${photoPath}" alt="${patientName}" class="patient-photo image">`;
+                    const imgEl = photoContainer.querySelector('img');
+                    imgEl.onerror = () => renderPlaceholder();
+                } else {
+                    renderPlaceholder();
+                }
+
+                // Load donors for this case (real data)
+                loadDonors();
+
+                document.getElementById('loader').classList.remove('active');
+                document.getElementById('content').classList.add('active');
+            } catch (error) {
+                document.getElementById('loader').classList.remove('active');
+                document.getElementById('content').classList.add('active');
+                document.getElementById('content').innerHTML = `<p>Error: ${error.message}<br><a href="/pages/cases.html">Go back to cases</a></p>`;
+            }
+        }
+
+        async function loadDonors() {
+            try {
+                const resp = await fetch(`/api/donations?caseId=${caseId}`);
+                if (!resp.ok) throw new Error('Failed to load donors');
+                const payload = await resp.json();
+                const donors = (payload && payload.data) ? payload.data : [];
+                const donorsContainer = document.getElementById('donorsList');
+                donorsContainer.innerHTML = '';
+                if (!donors || donors.length === 0) {
+                    donorsContainer.innerHTML = '<p style="color: #7f8c8d;">No donations yet. Be the first to help!</p>';
+                    return;
+                }
+
+                donors.forEach(d => {
+                    const card = document.createElement('div');
+                    card.className = 'donor-card';
+                    const name = d.is_anonymous ? 'Anonymous' : (d.guest_name || d.donor_name || 'Donor');
+                    const amount = d.amount || d.total_amount || 0;
+                    const date = new Date(d.donation_date || d.created_at || Date.now());
+                    const tier = getDonorTierPatientDetails(amount);
+                    const tierIcon = getTierIconPatientDetails(tier);
+                    
+                    card.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div style="font-size: 1.5rem;">${tierIcon}</div>
+                            <div style="flex: 1;">
+                                <div class="donor-name">${escapeHtml(name)}</div>
+                                <div style="font-size: 0.75rem; color: #7f8c8d; margin-top: 0.2rem;">${tier}</div>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="donor-amount">${formatCurrencyDisplay(amount)}</div>
+                            <div class="donor-date" style="font-size:0.75rem; color:#555; margin-top: 0.25rem;">${formatDate(date)}</div>
+                        </div>
+                    `;
+                    donorsContainer.appendChild(card);
+                });
+            } catch (err) {
+                console.warn('Failed to load donors', err);
+            }
+        }
+
+        // Simple HTML escape to avoid injection from backend values
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"'`]/g, function (s) {
+                return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;',"`":'&#96;'})[s];
+            });
+        }
+
+        document.getElementById('donationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const amount = document.getElementById('donationAmount').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const donorName = document.getElementById('donorName').value;
+            const donorEmail = document.getElementById('donorEmail').value;
+            const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+
+            if (!amount || Number(amount) < 100) { alert('Please enter a valid amount (minimum BDT 100)'); return; }
+
+            try {
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = `Bearer ${token}`;
+
+                // Create a payment intent / sandbox instruction
+                const resp = await fetch('/api/payments/create-intent', {
+                    method: 'POST',
+                    headers,
+                    body: JSON.stringify({ amount: Number(amount), caseId: caseId, donorName, donorEmail, paymentMethod })
+                });
+
+                if (!resp.ok) {
+                    const err = await resp.json().catch(()=>null);
+                    throw new Error((err && err.message) ? err.message : 'Failed to initialize payment');
+                }
+
+                const data = await resp.json();
+
+                // If card (Stripe) return a clientSecret for further processing (not fully integrated here)
+                if (data.provider === 'stripe' && data.clientSecret) {
+                    alert('Card payment selected. The platform supports Stripe — client token received. (Integration required)');
+                    // In a real integration, you would hand this to Stripe.js to complete card payment.
+                    document.getElementById('donationForm').reset();
+                    loadCaseDetails();
+                    return;
+                }
+
+                // For mobile wallets and bank transfers show instructions and allow the user to confirm after paying
+                document.getElementById('instructionsText').textContent = data.instructions || ('Follow the instructions to complete your payment. Reference: ' + (data.paymentId || ''));
+                document.getElementById('paymentInstructions').style.display = 'block';
+
+                // Store current paymentId in the confirm button dataset
+                const confirmBtn = document.getElementById('confirmPaymentBtn');
+                confirmBtn.dataset.paymentId = data.paymentId;
+                confirmBtn.dataset.provider = data.provider || paymentMethod;
+
+                document.getElementById('cancelPaymentBtn').onclick = function(){
+                    document.getElementById('paymentInstructions').style.display = 'none';
+                };
+
+                confirmBtn.onclick = async function(){
+                    try {
+                        const confirmResp = await fetch('/api/payments/confirm', {
+                            method: 'POST',
+                            headers,
+                            body: JSON.stringify({ paymentId: this.dataset.paymentId, guestName: donorName, guestEmail: donorEmail })
+                        });
+
+                        if (!confirmResp.ok) {
+                            const er = await confirmResp.json().catch(()=>null);
+                            throw new Error((er && er.message) ? er.message : 'Failed to confirm payment');
+                        }
+
+                        alert('Thank you! Your payment has been confirmed.');
+                        document.getElementById('paymentInstructions').style.display = 'none';
+                        document.getElementById('donationForm').reset();
+                        loadCaseDetails();
+                    } catch (err) {
+                        alert('Error confirming payment: ' + err.message);
+                    }
+                };
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        });
+
+        function formatCurrencyDisplay(amount) {
+            return '৳' + new Intl.NumberFormat('en-BD').format(Math.round(amount));
+        }
+
+        function formatDate(date) {
+            return new Intl.DateTimeFormat('en-IN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }).format(new Date(date));
+        }
+
+        function getDonorTierPatientDetails(amount) {
+            if (amount >= 50000) return 'Platinum Donor';
+            if (amount >= 25000) return 'Gold Donor';
+            if (amount >= 10000) return 'Silver Donor';
+            if (amount >= 5000) return 'Bronze Donor';
+            return 'Helper';
+        }
+
+        function getTierIconPatientDetails(tier) {
+            const icons = {
+                'Platinum Donor': '💎',
+                'Gold Donor': '🥇',
+                'Silver Donor': '🥈',
+                'Bronze Donor': '🥉',
+                'Helper': '❤️'
+            };
+            return icons[tier] || '❤️';
+        }
+    </script>
+    <script src="js/animations.js"></script>
+</body>
+</html>

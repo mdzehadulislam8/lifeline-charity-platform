@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Notification Navbar - Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .test-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+        .test-content h1 {
+            color: #3d2323ff;
+            margin-bottom: 1rem;
+        }
+        .test-content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        .feature-list li {
+            padding: 0.5rem 0;
+            color: #333;
+        }
+        .feature-list li:before {
+            content: "✓ ";
+            color: #ff3b30;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .notice {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #856404;
+        }
+        .notice strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        code {
+            background: #f0f0f0;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+    </style>
+</head>
+<body>
+    <!-- Industrial Notification Navbar -->
+    <div id="navbar-container"></div>
+
+    <!-- Test Content -->
+    <div class="test-container">
+        <div class="test-content">
+            <h1>🎨 Industrial Notification Navbar</h1>
+            <p>Lifeline Charity Platform - Modern & Professional Notification System</p>
+
+            <h2 style="color: #ff3b30; margin-top: 1.5rem; margin-bottom: 1rem;">Features</h2>
+            <ul class="feature-list">
+                <li>Industrial dark theme with red accent color</li>
+                <li>Real-time notification polling (5-second intervals)</li>
+                <li>Unread notification badge counter</li>
+                <li>Dropdown notification panel with notifications list</li>
+                <li>Status indicators for different notification types</li>
+                <li>Mark as read functionality (single & bulk)</li>
+                <li>Responsive design for mobile devices</li>
+                <li>Smooth animations and hover effects</li>
+                <li>Automatic dark mode support</li>
+            </ul>
+
+            <div class="notice">
+                <strong>🔔 Click the bell icon in the navbar to see notifications!</strong>
+                Test it by:
+                <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                    <li>Submitting a case as patient</li>
+                    <li>Logging in as Lifeline team member</li>
+                    <li>Seeing the notification in the bell dropdown</li>
+                </ol>
+            </div>
+
+            <h2 style="color: #ff3b30; margin-top: 1.5rem; margin-bottom: 1rem;">Notification Types</h2>
+            <p><strong>Case Submitted:</strong> Patient submits a new case → Lifeline team notified with <code>NEW</code> badge</p>
+            <p><strong>Case Approved:</strong> Lifeline team approves case → Patient notified with <code>APPROVED</code> badge ✅</p>
+            <p><strong>Case Rejected:</strong> Lifeline team rejects case → Patient notified with <code>REJECTED</code> badge</p>
+            <p><strong>Case Updated:</strong> Case information updated → Related parties notified</p>
+            <p><strong>Donation Received:</strong> Donation comes in → Patient notified with <code>DONATION</code> badge</p>
+
+            <h2 style="color: #ff3b30; margin-top: 1.5rem; margin-bottom: 1rem;">Integration</h2>
+            <p>The navbar has been integrated into:</p>
+            <ul class="feature-list">
+                <li><code>doctor-dashboard.html</code> - Lifeline team dashboard</li>
+                <li><code>patient-dashboard.html</code> - Patient case dashboard</li>
+            </ul>
+
+            <p style="margin-top: 1.5rem; color: #666; font-size: 0.95rem;">
+                <strong>Documentation:</strong> See <code>INDUSTRIAL_NAVBAR_GUIDE.md</code> for detailed integration instructions and customization options.
+            </p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/industrial-notification-system.js"></script>
+    <script>
+        // Load industrial navbar
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/components/industrial-notification-navbar.html')
+                .then(response => response.text())
+                .then(html => {
+                    const navContainer = document.getElementById('navbar-container');
+                    if (navContainer) {
+                        navContainer.innerHTML = html;
+                        // Reinitialize notification system after navbar loads
+                        if (window.IndustrialNotificationSystem) {
+                            notificationSystemIndustrial = new IndustrialNotificationSystem();
+                            notificationSystemIndustrial.initializeUI();
+                        }
+                    }
+                })
+                .catch(error => console.error('Failed to load navbar:', error));
+
+            // Update navbar navigation links
+            setTimeout(() => {
+                const navbar = document.querySelector('.notification-navbar-center');
+                if (navbar) {
+                    navbar.innerHTML = `
+                        <a href="index.html" class="notification-navbar-link">Home</a>
+                        <a href="patient-dashboard.html" class="notification-navbar-link">Patient Dashboard</a>
+                        <a href="doctor-dashboard.html" class="notification-navbar-link">Doctor Dashboard</a>
+                        <a href="test-navbar.html" class="notification-navbar-link active">Test Navbar</a>
+                    `;
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

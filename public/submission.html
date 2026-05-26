@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Medical Case - Lifeline Charity Platform</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/theme-bd.css">
+    <link rel="stylesheet" href="css/theme-ketto.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="css/modern.css">
+    <style>
+        :root {
+            --grad-primary: linear-gradient(135deg, #ff3333 0%, #ffcc00 100%);
+            --grad-accent: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            --grad-cool: linear-gradient(135deg, #ff3333 0%, #ff6666 100%);
+            --shadow-lg: 0 20px 60px rgba(255, 51, 51, 0.2);
+            --shadow-md: 0 10px 30px rgba(255, 51, 51, 0.15);
+        }
+
+        main {
+            background: linear-gradient(135deg, #fff5f5 0%, #fff 50%, #fffbf0 100%);
+            min-height: 100vh;
+            padding: 4rem 1rem;
+            position: relative;
+        }
+
+        main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(255, 51, 51, 0.08) 0%, rgba(255, 204, 0, 0.08) 100%);
+            z-index: -1;
+        }
+
+        .submission-container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 0;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            animation: slideUp 700ms cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(255, 51, 51, 0.1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-header {
+            background: var(--grad-primary);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(255, 51, 51, 0.3);
+        }
+
+        .form-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent);
+            border-radius: 50%;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .form-header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            border-radius: 50%;
+            animation: float 12s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+        }
+
+        .form-header h1 {
+            margin: 0 0 1rem 0;
+            font-size: 3rem;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-header .icon-badge {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .form-header p {
+            margin: 0;
+            opacity: 0.98;
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 2;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .form-content {
+            padding: 3rem;
+        }
+
+        .form-section {
+            margin-bottom: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 2px solid #e8eef7;
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .form-section h3 {
+            color: #1a237e;
+            margin: 0 0 2rem 0;
+            padding-bottom: 1rem;
+            border-left: 5px solid var(--primary);
+            border-bottom: none;
+            padding-left: 1rem;
+            font-size: 1.6rem;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+            background: linear-gradient(135deg, rgba(255, 51, 51, 0.15), rgba(255, 204, 0, 0.15));
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(255, 51, 51, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, rgba(255, 51, 51, 0.05), rgba(255, 204, 0, 0.05));
+            border: 3px dashed #ff3333;
+            border-radius: 16px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 700;
+            color: #ff3333;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-input-label::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .file-input-wrapper input[type=file]:hover + .file-input-label::before {
+            left: 100%;
+        }
+
+        .file-input-label:hover {
+            background: linear-gradient(135deg, rgba(255, 51, 51, 0.12), rgba(255, 204, 0, 0.12));
+            border-color: #ffcc00;
+            transform: translateY(-6px);
+            box-shadow: 0 12px 36px rgba(255, 51, 51, 0.25);
+        }
+
+        .file-name {
+            margin-top: 1rem;
+            color: #27ae60;
+            font-size: 0.95rem;
+            font-weight: 700;
+            animation: fadeIn 300ms ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1.1rem;
+            border: 2px solid #e0e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+            color: #2c3e50;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ff3333;
+            background: white;
+            box-shadow: 0 8px 24px rgba(255, 51, 51, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 140px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, rgba(255, 51, 51, 0.08), rgba(255, 204, 0, 0.08));
+            border-radius: 12px;
+            border: 1px solid rgba(255, 51, 51, 0.15);
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+            accent-color: #ff3333;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 600;
+            cursor: pointer;
+            color: #2c3e50;
+            font-size: 1rem;
+        }
+
+        .required::after {
+            content: ' *';
+            color: #ff3333;
+            font-weight: 900;
+        }
+
+        .btn-submit {
+            background: var(--grad-primary);
+            color: white;
+            padding: 1.4rem 3.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 12px 36px rgba(255, 51, 51, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 48px rgba(255, 51, 51, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.15), rgba(76, 175, 80, 0.1));
+            color: #1b5e20;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            border-left: 6px solid #27ae60;
+            font-weight: 700;
+            font-size: 1.1rem;
+            animation: slideInDown 400ms ease-out;
+            border: 1px solid rgba(39, 174, 96, 0.3);
+        }
+
+        .error-message {
+            display: none;
+            background: linear-gradient(135deg, rgba(192, 57, 43, 0.15), rgba(244, 67, 54, 0.1));
+            color: #b71c1c;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            border-left: 6px solid #d32f2f;
+            font-weight: 700;
+            font-size: 1.1rem;
+            animation: slideInDown 400ms ease-out;
+            border: 1px solid rgba(192, 57, 43, 0.3);
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(30, 136, 229, 0.12), rgba(30, 136, 229, 0.08));
+            border-left: 6px solid #1e88e5;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+            font-weight: 600;
+            border: 1px solid rgba(30, 136, 229, 0.2);
+        }
+
+        .info-box strong {
+            display: block;
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            color: #1565c0;
+        }
+
+        .info-box h3 {
+            margin: 0 0 0.75rem 0;
+            font-size: 1.2rem;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            color: #1565c0;
+        }
+
+        .info-box p {
+            margin: 0 0 0.75rem 0;
+            line-height: 1.8;
+            color: #425d7a;
+        }
+
+        .info-box ul {
+            margin: 1rem 1.5rem 0 2rem;
+            padding: 0;
+        }
+
+        .info-box li {
+            margin-bottom: 0.8rem;
+            line-height: 1.8;
+            color: #425d7a;
+        }
+
+        .info-box li strong {
+            display: inline;
+            font-weight: 700;
+            color: #ff3333;
+        }
+
+        @media (max-width: 768px) {
+            .form-header {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .form-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .form-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .file-input-label {
+                padding: 2rem 1rem;
+                font-size: 0.95rem;
+            }
+
+            .section-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+
+            .form-section h3 {
+                font-size: 1.3rem;
+            }
+        }
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1.05rem;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            box-shadow: 0 8px 20px rgba(211, 47, 47, 0.2);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(211, 47, 47, 0.3);
+        }
+
+        .btn-submit:active {
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.12), rgba(39, 174, 96, 0.05));
+            color: var(--success);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--success);
+            font-weight: 700;
+            font-size: 1.05rem;
+            animation: slideInDown 400ms ease-out;
+        }
+
+        .error-message {
+            display: none;
+            background: linear-gradient(135deg, rgba(192, 57, 43, 0.12), rgba(192, 57, 43, 0.05));
+            color: var(--danger);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--danger);
+            font-weight: 700;
+            font-size: 1.05rem;
+            animation: slideInDown 400ms ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(255, 51, 51, 0.08), rgba(255, 204, 0, 0.08));
+            border-left: 5px solid #ff3333;
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            border: 1px solid rgba(255, 51, 51, 0.15);
+        }
+
+        .info-box strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .info-box h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-primary);
+        }
+
+        .info-box p {
+            margin: 0 0 0.5rem 0;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .info-box ul {
+            margin: 0.75rem 1rem 0 1.25rem;
+            padding: 0;
+        }
+
+        .info-box li {
+            margin-bottom: 0.6rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .info-box li strong {
+            display: inline;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .form-header {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .form-content {
+                padding: 1.5rem;
+            }
+
+            .progress-indicator {
+                padding: 1.5rem 1rem;
+            }
+
+            .progress-step {
+                font-size: 0.8rem;
+            }
+
+            .progress-number {
+                width: 40px;
+                height: 40px;
+                font-size: 0.85rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .file-input-label {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        /* User menu dropdown */
+        .user-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            z-index: 2000;
+            margin-top: 0.5rem;
+        }
+
+        .user-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-color);
+            text-decoration: none;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.2s ease;
+        }
+
+        .user-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .user-menu a:hover {
+            background: #f9f9f9;
+            color: var(--primary-color);
+            padding-left: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <i class="icon-heart"></i> Lifeline
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/pages/cases.html">Cases</a></li>
+                <li><a href="/pages/blood-donation.html">Blood Donors</a></li>
+                <li><a href="/pages/about.html">About</a></li>
+                <li id="nav-login" style="display:none;"><a href="/pages/login.html" class="btn-nav">Login</a></li>
+                <li id="nav-user" style="display:none;">
+                    <a href="#" onclick="showUserMenu(event)" class="btn-nav user-avatar">
+                        <div id="user-name"></div>
+                        <div id="user-menu" style="display:none;">
+                            <a href="/pages/profile.html">My Profile</a>
+                            <a href="/submission.html">Submit Case</a>
+                            <a href="/lifeline-charity-team-dashboard.html">Team Dashboard</a>
+                            <a href="#" onclick="logoutUser()">Logout</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <button id="hamburger" class="hamburger" onclick="toggleNavMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="submission-container">
+            <!-- Header -->
+            <div class="form-header">
+                <div class="icon-badge">📝</div>
+                <h1>Submit Your Medical Case</h1>
+                <p>Share your story and let compassionate donors help you through this journey</p>
+            </div>
+
+            <!-- Progress indicator removed per request -->
+
+            <div class="form-content">
+                <div class="info-box">
+                    <strong>📋 How It Works</strong>
+                    <p style="margin:0;">Our Lifeline Charity Team reviews and verifies every submission. Once approved, your case becomes visible to potential donors who can help you. Your story matters!</p>
+                </div>
+
+                <div class="info-box" style="margin-top:1.5rem; background: linear-gradient(135deg, rgba(243, 156, 18, 0.12), rgba(243, 156, 18, 0.08)); border-left-color: #f39c12;">
+                    <h3 style="margin:0 0 .75rem 0; color: #e67e22;">✓ Verification Checklist</h3>
+                    <p style="margin:0 0 .75rem 0; font-size: 0.95rem;">Please have these ready for a smoother review:</p>
+                    <ul style="margin:1rem 1.5rem 0 2rem; padding: 0;">
+                        <li><strong>Medical documents:</strong> Prescription(s) & doctor's recommendation</li>
+                        <li><strong>Identity proof:</strong> National ID (NID) or passport</li>
+                        <li><strong>Hospital details:</strong> Name, contact & department info</li>
+                        <li><strong>Cost estimate:</strong> Treatment bill or hospital estimate</li>
+                        <li><strong>Bank details:</strong> For withdrawal processing</li>
+                    </ul>
+                    <p style="margin-top:.75rem; font-size: 0.9rem; color: #666;">Our team may verify details directly with the hospital.</p>
+                </div>
+
+                <div class="success-message" id="successMessage">
+                    ✓ Your case has been submitted successfully! Our Lifeline Charity Team will review it within 24-48 hours.
+                </div>
+
+                <div class="error-message" id="errorMessage"></div>
+
+                <form id="submissionForm">
+                    <!-- Personal Information -->
+                    <div class="form-section">
+                        <h3><span class="section-icon">👤</span> About You</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName" class="required">First Name</label>
+                                <input type="text" id="firstName" name="firstName" placeholder="Enter your first name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lastName" class="required">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" placeholder="Enter your last name">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                    <label for="email" class="required">Email Address</label>
+                                    <input type="email" id="email" name="email" readonly>
+                                    <small style="display:block;color:#666; margin-top:.5rem; font-weight: 500;">Your account email. Update it from profile settings if needed.</small>
+                                </div>
+
+                            <div class="form-group">
+                                <label for="phone" class="required">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="+880 1712 345678">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nid" class="required">National ID (NID)</label>
+                                <input type="text" id="nid" name="nid" placeholder="13 digit NID number">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="age">Age</label>
+                                <input type="number" id="age" name="age" min="0" max="150" placeholder="e.g., 35">
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label for="address">Current Address</label>
+                                <textarea id="address" name="address" placeholder="Where you currently live"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label for="permanentAddress">Permanent Address</label>
+                                <textarea id="permanentAddress" name="permanentAddress" placeholder="Your permanent address"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <select id="gender" name="gender">
+                                    <option value="">-- Select --</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="relation">Relation (if created by family/friend)</label>
+                                <input type="text" id="relation" name="relation" placeholder="e.g., Mother, Brother">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medical Information -->
+                    <div class="form-section">
+                        <h3><span class="section-icon">🏥</span> Medical Details</h3>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label for="medicalCondition" class="required">Primary Medical Condition</label>
+                                <select id="medicalCondition" name="medicalCondition">
+                                    <option value="">-- Select your condition --</option>
+                                    <option value="Cancer">Cancer</option>
+                                    <option value="Heart Disease">Heart Disease</option>
+                                    <option value="Diabetes">Diabetes</option>
+                                    <option value="Kidney Disease">Kidney Disease</option>
+                                    <option value="Liver Disease">Liver Disease</option>
+                                    <option value="Bone Disease">Bone Disease</option>
+                                    <option value="Eye Disease">Eye Disease</option>
+                                    <option value="Neurological">Neurological Disorder</option>
+                                    <option value="Surgical">Surgical Need</option>
+                                    <option value="Emergency">Emergency Treatment</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="diagnosisName">Specific Diagnosis</label>
+                                <input type="text" id="diagnosisName" name="diagnosisName" placeholder="e.g., Acute appendicitis">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="doctorName">Doctor's Name</label>
+                                <input type="text" id="doctorName" name="doctorName" placeholder="Attending doctor's full name">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="hospitalName">Hospital Name</label>
+                                <input type="text" id="hospitalName" name="hospitalName" placeholder="Hospital or clinic name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="hospitalAddress">Hospital Address/Department</label>
+                                <input type="text" id="hospitalAddress" name="hospitalAddress" placeholder="Location details">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="treatmentType">Treatment Type</label>
+                                <select id="treatmentType" name="treatmentType">
+                                    <option value="">-- Select --</option>
+                                    <option value="operation">Operation / Surgery</option>
+                                    <option value="chemotherapy">Chemotherapy</option>
+                                    <option value="icu">ICU Care</option>
+                                    <option value="dialysis">Dialysis</option>
+                                    <option value="radiation">Radiation Therapy</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="expectedDuration">Expected Duration</label>
+                                <input type="text" id="expectedDuration" name="expectedDuration" placeholder="e.g., 3 months, ongoing">
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label for="currentCondition" class="required">Current Health Condition</label>
+                                <textarea id="currentCondition" name="currentCondition" 
+                                          placeholder="Describe your health condition, symptoms, and what treatment you need..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label for="medicalHistory">Previous Medical History</label>
+                                <textarea id="medicalHistory" name="medicalHistory" 
+                                          placeholder="Any previous surgeries, treatments, or medical conditions..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Document Upload -->
+                    <div class="form-section">
+                        <h3><span class="section-icon">📄</span> Required Documents</h3>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label class="required">Medical Prescription (PDF)</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="prescriptionFile" name="prescriptionFile" accept=".pdf" required>
+                                    <label for="prescriptionFile" class="file-input-label">
+                                        📋 Upload Prescription
+                                    </label>
+                                    <div class="file-name" id="prescriptionName"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label class="required">NID/ID Document (PDF or Image)</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="nidFile" name="nidFile" accept=".pdf,.jpg,.jpeg,.png" required>
+                                    <label for="nidFile" class="file-input-label">
+                                        🆔 Upload Identity Document
+                                    </label>
+                                    <div class="file-name" id="nidName"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Medical Reports (Optional)</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="medicalReports" name="medicalReports" accept=".pdf,.jpg,.jpeg,.png" multiple>
+                                    <label for="medicalReports" class="file-input-label">📎 Upload Medical Reports</label>
+                                    <div class="file-name" id="medicalReportsName"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Treatment Cost Estimate (PDF)</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="treatmentEstimateFile" name="treatmentEstimateFile" accept=".pdf">
+                                    <label for="treatmentEstimateFile" class="file-input-label">📄 Upload Cost Estimate</label>
+                                    <div class="file-name" id="treatmentEstimateName"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Hospital Admission Slip</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="admissionSlipFile" name="admissionSlipFile" accept=".pdf,.jpg,.jpeg,.png">
+                                    <label for="admissionSlipFile" class="file-input-label">🏥 Upload Admission Slip</label>
+                                    <div class="file-name" id="admissionSlipName"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Doctor's Letter/Recommendation</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="doctorLetterFile" name="doctorLetterFile" accept=".pdf,.jpg,.jpeg,.png">
+                                    <label for="doctorLetterFile" class="file-input-label">✉️ Upload Doctor's Letter</label>
+                                    <div class="file-name" id="doctorLetterName"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Bank Details Photo (Cheque Leaf)</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="bankChequeFile" name="bankChequeFile" accept=".jpg,.jpeg,.png,.pdf">
+                                    <label for="bankChequeFile" class="file-input-label">🏦 Upload Bank Details</label>
+                                    <div class="file-name" id="bankChequeName"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>bKash / Nagad Screenshot (Optional)</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="mobileWalletFile" name="mobileWalletFile" accept=".jpg,.jpeg,.png">
+                                    <label for="mobileWalletFile" class="file-input-label">📱 Upload Mobile Wallet</label>
+                                    <div class="file-name" id="mobileWalletName"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Case Details -->
+                    <div class="form-section">
+                        <h3><span class="section-icon">📝</span> Your Story</h3>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label for="caseTitle" class="required">Case Title</label>
+                                <input type="text" id="caseTitle" name="caseTitle" 
+                                       placeholder="e.g., Open Heart Surgery for Muhammad Ali">
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label for="category" class="required">Medical Category</label>
+                                <select id="category" name="category">
+                                    <option value="">-- Select a category --</option>
+                                    <option value="Cancer">Cancer Treatment</option>
+                                    <option value="Heart">Heart Disease</option>
+                                    <option value="Kidney">Kidney Disease</option>
+                                    <option value="Liver">Liver Disease</option>
+                                    <option value="Emergency">Emergency Treatment</option>
+                                    <option value="Surgery">Surgery</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label for="description" class="required">Detailed Case Description</label>
+                                <textarea id="description" name="description" 
+                                          placeholder="Tell us about the case, treatment plan, why help is needed..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="goalAmount" class="required">Estimated Treatment Cost (BDT)</label>
+                                <input type="number" id="goalAmount" name="goalAmount" min="0" step="1000" placeholder="e.g., 500000">
+                            </div>
+
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="isUrgent" name="isUrgent">
+                                    <label for="isUrgent">⚠️ Mark as Urgent</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label for="howMoneyUsed">How the Money Will Be Used</label>
+                                <textarea id="howMoneyUsed" name="howMoneyUsed" placeholder="Surgery costs, medicines, hospital bills, etc."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label for="story">Patient's Story</label>
+                                <textarea id="story" name="story" placeholder="Share the patient's journey. This helps donors connect emotionally and want to help."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label for="photos" class="required">Patient Photos (required)</label>
+                                <input type="file" id="photos" name="photos" accept=".jpg,.jpeg,.png" multiple required>
+                                <div class="file-name" id="photosName"></div>
+                                <small style="color:#666; display:block; margin-top:0.75rem; font-weight: 500;">At least one photo is required and will show on your case card. Clear, professional photos help donors understand the situation better.</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label for="videoFile">Patient Video (Optional)</label>
+                                <input type="file" id="videoFile" name="videoFile" accept="video/*">
+                                <div class="file-name" id="videoName"></div>
+                                <small style="color:#666; display:block; margin-top:0.75rem;">A short video of the patient can increase donor engagement.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" class="btn-submit">💝 Submit Case for Review</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Lifeline Charity Platform. All rights reserved.</p>
+            <p>Helping those in need, one case at a time.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Navbar menu toggle for mobile
+        function toggleNavMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            const hamburger = document.getElementById('hamburger');
+            if (navMenu) {
+                navMenu.classList.toggle('active');
+            }
+            if (hamburger) {
+                hamburger.classList.toggle('active');
+            }
+        }
+
+        // User menu dropdown toggle
+        function showUserMenu(event) {
+            event.preventDefault();
+            const userMenu = document.getElementById('user-menu');
+            if (userMenu) {
+                userMenu.style.display = userMenu.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+
+        // Close user menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.getElementById('user-menu');
+            const btnNav = document.querySelector('.btn-nav');
+            if (userMenu && btnNav && !btnNav.contains(event.target)) {
+                userMenu.style.display = 'none';
+            }
+        });
+
+        // Logout function
+        function logoutUser() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/pages/login.html';
+        }
+
+        // Initialize form with user data
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const token = localStorage.getItem('token');
+
+            if (!user || user.userType !== 'patient') {
+                alert('You must be logged in as a patient to submit a case');
+                const returnTo = '/submission.html';
+                window.location.href = '/pages/login.html?returnTo=' + encodeURIComponent(returnTo);
+                return;
+            }
+
+            // Pre-fill user information
+            document.getElementById('firstName').value = user.firstName || '';
+            document.getElementById('lastName').value = user.lastName || '';
+            document.getElementById('email').value = user.email || '';
+
+            // File input listeners
+            document.getElementById('prescriptionFile').addEventListener('change', function(e) {
+                const fileName = e.target.files[0]?.name;
+                document.getElementById('prescriptionName').textContent = fileName ? `✓ ${fileName}` : '';
+            });
+
+            document.getElementById('nidFile').addEventListener('change', function(e) {
+                const fileName = e.target.files[0]?.name;
+                document.getElementById('nidName').textContent = fileName ? `✓ ${fileName}` : '';
+            });
+
+            // Profile photo removed from this form; account avatar managed via profile settings.
+
+            // Additional file inputs
+            const medicalReportsEl = document.getElementById('medicalReports');
+            if (medicalReportsEl) medicalReportsEl.addEventListener('change', function(e){
+                const names = Array.from(e.target.files || []).map(f=>f.name).join(', ');
+                document.getElementById('medicalReportsName').textContent = names ? `✓ ${names}` : '';
+            });
+
+            const treatmentEstimateEl = document.getElementById('treatmentEstimateFile');
+            if (treatmentEstimateEl) treatmentEstimateEl.addEventListener('change', function(e){
+                document.getElementById('treatmentEstimateName').textContent = e.target.files[0]?.name ? `✓ ${e.target.files[0].name}` : '';
+            });
+
+            const admissionEl = document.getElementById('admissionSlipFile');
+            if (admissionEl) admissionEl.addEventListener('change', function(e){
+                document.getElementById('admissionSlipName').textContent = e.target.files[0]?.name ? `✓ ${e.target.files[0].name}` : '';
+            });
+
+            const doctorLetterEl = document.getElementById('doctorLetterFile');
+            if (doctorLetterEl) doctorLetterEl.addEventListener('change', function(e){
+                document.getElementById('doctorLetterName').textContent = e.target.files[0]?.name ? `✓ ${e.target.files[0].name}` : '';
+            });
+
+            const bankChequeEl = document.getElementById('bankChequeFile');
+            if (bankChequeEl) bankChequeEl.addEventListener('change', function(e){
+                document.getElementById('bankChequeName').textContent = e.target.files[0]?.name ? `✓ ${e.target.files[0].name}` : '';
+            });
+
+            const mobileWalletEl = document.getElementById('mobileWalletFile');
+            if (mobileWalletEl) mobileWalletEl.addEventListener('change', function(e){
+                document.getElementById('mobileWalletName').textContent = e.target.files[0]?.name ? `✓ ${e.target.files[0].name}` : '';
+            });
+
+            const photosEl = document.getElementById('photos');
+            if (photosEl) photosEl.addEventListener('change', function(e){
+                const names = Array.from(e.target.files || []).map(f=>f.name).join(', ');
+                document.getElementById('photosName').textContent = names ? `✓ ${names}` : '';
+            });
+
+            const videoEl = document.getElementById('videoFile');
+            if (videoEl) videoEl.addEventListener('change', function(e){
+                document.getElementById('videoName').textContent = e.target.files[0]?.name ? `✓ ${e.target.files[0].name}` : '';
+            });
+
+            // Form submission
+            document.getElementById('submissionForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const formData = new FormData();
+                formData.append('firstName', document.getElementById('firstName').value);
+                formData.append('lastName', document.getElementById('lastName').value);
+                // Email is read-only on this form and is not sent from the client. Server uses authenticated user email.
+                formData.append('phone', document.getElementById('phone').value);
+                formData.append('nid', document.getElementById('nid').value);
+                formData.append('age', document.getElementById('age').value);
+                formData.append('address', document.getElementById('address').value);
+                formData.append('permanentAddress', document.getElementById('permanentAddress').value);
+                formData.append('gender', document.getElementById('gender').value);
+                formData.append('relation', document.getElementById('relation').value);
+                formData.append('medicalCondition', document.getElementById('medicalCondition').value);
+                formData.append('currentCondition', document.getElementById('currentCondition').value);
+                formData.append('medicalHistory', document.getElementById('medicalHistory').value);
+                formData.append('diagnosisName', document.getElementById('diagnosisName').value);
+                formData.append('doctorName', document.getElementById('doctorName').value);
+                formData.append('hospitalName', document.getElementById('hospitalName').value);
+                formData.append('hospitalAddress', document.getElementById('hospitalAddress').value);
+                formData.append('treatmentType', document.getElementById('treatmentType').value);
+                formData.append('expectedDuration', document.getElementById('expectedDuration').value);
+                formData.append('caseTitle', document.getElementById('caseTitle').value);
+                formData.append('category', document.getElementById('category').value);
+                formData.append('description', document.getElementById('description').value);
+                formData.append('goalAmount', document.getElementById('goalAmount').value);
+                formData.append('isUrgent', document.getElementById('isUrgent').checked);
+                formData.append('howMoneyUsed', document.getElementById('howMoneyUsed').value);
+                formData.append('story', document.getElementById('story').value);
+                formData.append('prescriptionFile', document.getElementById('prescriptionFile').files[0]);
+                formData.append('nidFile', document.getElementById('nidFile').files[0]);
+                // Profile photo is not submitted from this form; account avatar handled in profile settings.
+
+                    // Additional optional files
+                    const medicalReports = document.getElementById('medicalReports')?.files || [];
+                    for (let i=0;i<medicalReports.length;i++) formData.append('medicalReports', medicalReports[i]);
+
+                    if (document.getElementById('treatmentEstimateFile')?.files[0]) formData.append('treatmentEstimateFile', document.getElementById('treatmentEstimateFile').files[0]);
+                    if (document.getElementById('admissionSlipFile')?.files[0]) formData.append('admissionSlipFile', document.getElementById('admissionSlipFile').files[0]);
+                    if (document.getElementById('doctorLetterFile')?.files[0]) formData.append('doctorLetterFile', document.getElementById('doctorLetterFile').files[0]);
+                    if (document.getElementById('bankChequeFile')?.files[0]) formData.append('bankChequeFile', document.getElementById('bankChequeFile').files[0]);
+                    if (document.getElementById('mobileWalletFile')?.files[0]) formData.append('mobileWalletFile', document.getElementById('mobileWalletFile').files[0]);
+
+                    const photos = document.getElementById('photos')?.files || [];
+                    for (let i=0;i<photos.length;i++) formData.append('photos', photos[i]);
+                    if (document.getElementById('videoFile')?.files[0]) formData.append('videoFile', document.getElementById('videoFile').files[0]);
+
+                try {
+                    const response = await fetch('/api/cases/submit', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.message || 'Submission failed');
+                    }
+
+                    const result = await response.json();
+                    
+                    // Show success message
+                    const successMsg = document.getElementById('successMessage');
+                    successMsg.style.display = 'block';
+                    successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Hide form
+                    document.getElementById('submissionForm').style.display = 'none';
+                    
+                    // Show additional success info
+                    const successInfo = document.createElement('div');
+                    successInfo.style.cssText = 'background: #d4edda; color: #155724; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; border-left: 5px solid #27ae60; font-weight: 500;';
+                    successInfo.innerHTML = `
+                        <h3 style="margin-top: 0; color: #155724;">✓ Submission Received!</h3>
+                        <p>Thank you for submitting your case. Your submission ID is: <strong>${result.submissionId || 'N/A'}</strong></p>
+                        <p>Our Lifeline Charity Team will review your case within 24-48 hours. You will receive an email notification about the review status.</p>
+                    `;
+                    document.querySelector('.form-content').appendChild(successInfo);
+                    
+                    // Redirect after 4 seconds
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 4000);
+                } catch (error) {
+                    const errorMsg = document.getElementById('errorMessage');
+                    errorMsg.textContent = error.message;
+                    errorMsg.style.display = 'block';
+                    errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    console.error('Submission error:', error);
+                }
+            });
+        });
+    </script>
+    <script src="js/navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make a Donation - Lifeline Charity Platform</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="../css/modern.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .donate-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            padding: 2rem 1rem;
+        }
+
+        .donate-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .donate-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .donate-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color, #d32f2f);
+            margin-bottom: 0.5rem;
+        }
+
+        .donate-header p {
+            font-size: 1.1rem;
+            color: var(--text-color, #333);
+        }
+
+        .donate-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .case-summary {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .case-summary-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .case-summary-img-placeholder {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .case-summary h3 {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .case-summary-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .meta-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .meta-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .meta-value {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .progress-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), #e74c3c);
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .donate-form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .donate-form-container h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .form-group label .required {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .amount-preset {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .amount-btn {
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .amount-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .amount-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .donor-info-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .donor-info-fields.full {
+            grid-template-columns: 1fr;
+        }
+
+        .donor-info-fields.hidden {
+            display: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.1rem 1.5rem;
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(211, 47, 47, 0.35);
+            background: linear-gradient(135deg, #c62828 0%, #ad1457 100%);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.25);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            gap: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .donate-content {
+                grid-template-columns: 1fr;
+            }
+
+            .case-summary {
+                position: static;
+            }
+
+            .donate-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .amount-preset {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .donor-info-fields {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem 1.5rem;
+            border-top: 2px solid #ddd;
+            margin-top: 3rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 8px;
+        }
+
+        .footer-left, .footer-right {
+            flex: 1;
+        }
+
+        .footer-left p, .footer-right p {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .footer-right {
+            background: rgba(52, 152, 219, 0.08);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .dev-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .dev-item {
+            padding: 0.75rem;
+            background: rgba(52, 152, 219, 0.05);
+            border-radius: 6px;
+            border-left: 3px solid #2980b9;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .dev-item strong {
+            color: #2980b9;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .footer-left a, .footer-right a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .footer-left a:hover, .footer-right a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .footer-left, .footer-right {
+                width: 100%;
+            }
+
+            .footer-right {
+                border-left: none;
+                border-top: 4px solid #3498db;
+                padding-top: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="../index.html" class="logo">
+                    <span class="logo-mark"><img src="../images/logo-charity-2.png" alt="Lifeline logo"/></span>
+                    <span class="logo-text">Lifeline</span>
+                </a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="cases.html">Browse Cases</a></li>
+                <li id="nav-login"><a href="login.html" class="btn-login">Login</a></li>
+                <li id="nav-signup"><a href="signup.html" class="btn-signup">Sign Up</a></li>
+                <li id="nav-user" style="display:none;">
+                    <a href="#" onclick="showUserMenu(event)" class="btn-nav user-avatar">
+                        <div id="user-name"></div>
+                        <div id="user-menu" style="display:none;">
+                            <a href="profile.html">My Profile</a>
+                            <a href="campaigns.html">Campaigns</a>
+                            <a href="#" onclick="logoutUser()">Logout</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <div class="nav-actions">
+                <button id="themeToggle" class="btn-icon" aria-label="Toggle theme" title="Toggle light / dark">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Donation Page Content -->
+    <div class="donate-page">
+        <div class="donate-container">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+
+            <div class="donate-header">
+                <h1>Make Your Donation</h1>
+                <p>Help save a life with your generous contribution</p>
+            </div>
+
+            <div class="donate-content">
+                <!-- Case Summary (Left) -->
+                <div class="case-summary" id="caseSummary">
+                    <div class="skeleton-header" style="height: 250px; border-radius: 8px; margin-bottom: 1.5rem;"></div>
+                    <div class="skeleton-text"></div>
+                    <div class="skeleton-text short"></div>
+                </div>
+
+                <!-- Donation Form (Right) -->
+                <div class="donate-form-container">
+                    <h2>Donation Details</h2>
+                    
+                    <form id="donationPageForm" novalidate>
+                        <!-- Amount Section -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <i class="fas fa-coins"></i> Donation Amount
+                            </div>
+
+                            <div class="form-group">
+                                <label>Quick Select</label>
+                                <div class="amount-preset">
+                                    <button type="button" class="amount-btn" onclick="setAmount(500)">৳500</button>
+                                    <button type="button" class="amount-btn" onclick="setAmount(1000)">৳1000</button>
+                                    <button type="button" class="amount-btn" onclick="setAmount(5000)">৳5000</button>
+                                    <button type="button" class="amount-btn" onclick="setAmount(10000)">৳10000</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="donationAmount">
+                                    Custom Amount (BDT) <span class="required">*</span>
+                                </label>
+                                <input type="number" id="donationAmount" name="donationAmount" min="100" step="100" placeholder="Minimum ৳100" required>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <i class="fas fa-credit-card"></i> Payment Method
+                            </div>
+
+                            <div class="form-group">
+                                <label for="paymentMethod"><span class="required">*</span></label>
+                                <select id="paymentMethod" name="paymentMethod" required>
+                                    <option value="">Select a payment method</option>
+                                    <option value="card">💳 Credit/Debit Card (Stripe)</option>
+                                    <option value="bkash">📱 bKash (Mobile Banking)</option>
+                                    <option value="nagad">📱 Nagad (Mobile Banking)</option>
+                                    <option value="rocket">📱 Rocket (Mobile Banking)</option>
+                                    <option value="bank">🏦 Bank Transfer</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Donor Information -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <i class="fas fa-user"></i> Donor Information
+                            </div>
+
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="anonymousDonation" name="anonymousDonation">
+                                <label for="anonymousDonation">Donate anonymously</label>
+                            </div>
+
+                            <div class="donor-info-fields" id="donorFields">
+                                <div class="form-group">
+                                    <label for="donorName">Your Name</label>
+                                    <input type="text" id="donorName" name="donorName" placeholder="Full name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="donorEmail">Your Email</label>
+                                    <input type="email" id="donorEmail" name="donorEmail" placeholder="your.email@example.com">
+                                </div>
+                                <div class="form-group full">
+                                    <label for="donorMessage">Message (Optional)</label>
+                                    <textarea id="donorMessage" name="donorMessage" placeholder="Leave a message of encouragement..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <i class="fas fa-heart"></i> Confirm Donation
+                        </button>
+
+                        <p style="text-align: center; color: #999; font-size: 0.85rem; margin-top: 1rem;">
+                            Your donation is secure and encrypted
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About Lifeline</h4>
+                    <p>Lifeline Charity Platform connects patients in need with compassionate donors worldwide.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="cases.html">Browse Cases</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-left">
+                    <p>&copy; 2025 Lifeline Charity Platform. All rights reserved | 
+                    <a href="#">Privacy Policy</a> | 
+                    <a href="#">Terms of Service</a> | 
+                    <a href="#">Contact Us</a></p>
+                </div>
+                <div class="footer-right">
+                    <div class=\"dev-info\">
+                        <div class=\"dev-item\">
+                            <strong>👨‍💻 Developed by:</strong><br>
+                            Md. Zehadul Islam, Abdullah Al Moin, Abu Hurayra
+                        </div>
+                        <div class=\"dev-item\">
+                            <strong>📋 Project:</strong><br>
+                            Lifeline Charity Platform
+                        </div>
+                        <div class=\"dev-item\">
+                            <strong>🏫 Institute:</strong><br>
+                            Green University of Bangladesh
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script>
+        let caseId = null;
+        let caseData = null;
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            setupNavbar();
+            setupUserAuth();
+            initThemeToggle();
+            
+            // Get case ID from URL parameter
+            const params = new URLSearchParams(window.location.search);
+            caseId = params.get('case');
+            
+            if (caseId) {
+                loadCaseData(caseId);
+            } else {
+                showNotification('No case selected for donation', 'error');
+                setTimeout(() => {
+                    if (navigationManager) {
+                        window.location.href = 'pages/cases.html';
+                    } else {
+                        history.back();
+                    }
+                }, 2000);
+            }
+
+            setupDonationForm();
+        });
+
+        async function loadCaseData(id) {
+            try {
+                showLoader();
+                const response = await fetch(`/api/cases/${id}`);
+                const result = await response.json();
+                hideLoader();
+
+                if (result.success && result.data) {
+                    caseData = result.data;
+                    renderCaseSummary();
+                } else {
+                    showNotification('Case not found', 'error');
+                    setTimeout(() => navigationManager?.goBack() || history.back(), 2000);
+                }
+            } catch (err) {
+                hideLoader();
+                console.error('Error loading case:', err);
+                showNotification('Failed to load case details', 'error');
+            }
+        }
+
+        function renderCaseSummary() {
+            const container = document.getElementById('caseSummary');
+            if (!container || !caseData) return;
+
+            const collected = Number(caseData.donated_total ?? caseData.collected_amount ?? 0) || 0;
+            const goal = Number(caseData.goal_amount ?? 1) || 1;
+            const percentage = Math.min(100, (collected / goal) * 100);
+            const patientName = [caseData.first_name, caseData.last_name].filter(Boolean).join(' ') || 'Patient';
+            const condition = caseData.medical_condition || caseData.category || 'Healthcare';
+
+            // Get image - try case_image_path first, then photo_path
+            let photoPath = null;
+            
+            // Try case_image_path first (case-specific image)
+            if (caseData.case_image_path && !/default-patient\.jpg/i.test(caseData.case_image_path)) {
+                const rawPhoto = caseData.case_image_path;
+                try {
+                    if (typeof rawPhoto === 'string' && /public[\\\/]uploads/i.test(rawPhoto)) {
+                        const parts = rawPhoto.split(/public[\\\/]/i);
+                        const rel = parts.length > 1 ? parts[1].replace(/\\/g, '/') : rawPhoto.replace(/\\/g, '/');
+                        photoPath = '/' + rel;
+                    } else {
+                        photoPath = rawPhoto;
+                    }
+                } catch (e) {
+                    photoPath = rawPhoto;
+                }
+            }
+            
+            // If no case image, try photo_path (patient profile photo)
+            if (!photoPath && caseData.photo_path && !/default-patient\.jpg/i.test(caseData.photo_path)) {
+                const rawPhoto = caseData.photo_path;
+                try {
+                    if (typeof rawPhoto === 'string' && /public[\\\/]uploads/i.test(rawPhoto)) {
+                        const parts = rawPhoto.split(/public[\\\/]/i);
+                        const rel = parts.length > 1 ? parts[1].replace(/\\/g, '/') : rawPhoto.replace(/\\/g, '/');
+                        photoPath = '/' + rel;
+                    } else {
+                        photoPath = rawPhoto;
+                    }
+                } catch (e) {
+                    photoPath = rawPhoto;
+                }
+            }
+
+            const imageHtml = photoPath 
+                ? `<img src="${photoPath}" alt="${patientName}" class="case-summary-img" onerror="this.onerror=null; this.src='/images/default-patient.jpg';" style="object-fit: cover; width: 100%; height: 250px;">`
+                : `<div class="case-summary-img-placeholder">👤</div>`;
+
+            const caseTitle = caseData.case_title || 'Healthcare Case';
+
+            container.innerHTML = `
+                ${imageHtml}
+                <h3>${caseTitle}</h3>
+                <p style="color: #666; margin-bottom: 1rem;">${condition}</p>
+                
+                <div class="case-summary-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Patient Name</span>
+                        <span class="meta-value">${patientName}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Raised So Far</span>
+                        <span class="meta-value">৳${formatCurrency(collected)}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Goal Amount</span>
+                        <span class="meta-value">৳${formatCurrency(goal)}</span>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${percentage}%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>${Math.round(percentage)}% Funded</span>
+                        <span>৳${formatCurrency(Math.max(0, goal - collected))} needed</span>
+                    </div>
+                </div>
+
+                <p style="color: #666; font-size: 0.9rem; line-height: 1.5;">
+                    ${caseData.description || 'Every donation makes a direct impact on this patient\'s life. Your contribution will help provide the necessary medical care.'}
+                </p>
+            `;
+        }
+
+        function setAmount(amount) {
+            document.getElementById('donationAmount').value = amount;
+            
+            // Highlight the active button
+            document.querySelectorAll('.amount-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function setupDonationForm() {
+            const anonymousCheckbox = document.getElementById('anonymousDonation');
+            const donorFields = document.getElementById('donorFields');
+            const donorNameInput = document.getElementById('donorName');
+            const donorEmailInput = document.getElementById('donorEmail');
+            const form = document.getElementById('donationPageForm');
+
+            // Toggle donor fields based on anonymous checkbox
+            anonymousCheckbox.addEventListener('change', function () {
+                if (this.checked) {
+                    donorFields.classList.add('hidden');
+                    donorNameInput.value = '';
+                    donorEmailInput.value = '';
+                } else {
+                    donorFields.classList.remove('hidden');
+                }
+            });
+
+            // Form submission
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                await handleDonationSubmit();
+            });
+        }
+
+        async function handleDonationSubmit() {
+            if (!caseId) {
+                showNotification('Case information missing', 'error');
+                return;
+            }
+
+            const amount = Number(document.getElementById('donationAmount').value || 0);
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const isAnonymous = document.getElementById('anonymousDonation').checked;
+            const donorName = document.getElementById('donorName').value.trim();
+            const donorEmail = document.getElementById('donorEmail').value.trim();
+
+            // Validation
+            if (!amount || amount < 100) {
+                showNotification('Minimum donation amount is ৳100', 'error');
+                return;
+            }
+
+            if (!paymentMethod) {
+                showNotification('Please select a payment method', 'error');
+                return;
+            }
+
+            if (!isAnonymous && donorEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(donorEmail)) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+
+            showLoader();
+
+            try {
+                const payload = {
+                    caseId,
+                    amount,
+                    paymentMethod,
+                    isAnonymous,
+                    guestName: isAnonymous ? 'Anonymous' : (donorName || null),
+                    guestEmail: isAnonymous ? '' : (donorEmail || null),
+                    message: document.getElementById('donorMessage').value.trim() || null
+                };
+
+                const response = await api.makeDonation(payload);
+                hideLoader();
+
+                if (response && response.success) {
+                    showNotification('Thank you! Your donation is being processed.', 'success');
+                    document.getElementById('donationPageForm').reset();
+                    
+                    setTimeout(() => {
+                        window.location.href = `../patient-details.html?case=${caseId}`;
+                    }, 1500);
+                } else {
+                    showNotification(response?.message || 'Donation processing failed', 'error');
+                }
+            } catch (err) {
+                hideLoader();
+                console.error('Error:', err);
+                showNotification(err.message || 'Unable to process donation', 'error');
+            }
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-BD', {
+                style: 'currency',
+                currency: 'BDT',
+                minimumFractionDigits: 0
+            }).format(amount).replace('৳', '').trim();
+        }
+    </script>
+</body>
+</html>

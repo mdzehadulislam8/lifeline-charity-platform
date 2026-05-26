@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Lifeline Works - Processes</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/theme-bd.css">
+    <link rel="stylesheet" href="../css/theme-ketto.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container navbar-brand">
+            <a href="../index.html" class="logo">
+                <img src="../images/logo-charity.svg" alt="Lifeline logo" style="width:34px;height:34px;vertical-align:middle;margin-right:.5rem;border-radius:6px"> Lifeline
+            </a>
+            <ul class="nav-menu">
+                <li id="nav-user" style="display:none;">
+                    <a href="#" onclick="showUserMenu(event)" class="btn-nav user-avatar">
+                        <div id="user-name"></div>
+                        <div id="user-menu" style="display:none;">
+                            <a href="profile.html">My Profile</a>
+                            <a href="campaigns.html">Campaigns</a>
+                            <a href="donate.html">Donate</a>
+                            <a href="#" onclick="logoutUser()">Logout</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container" style="padding:2rem 1rem;">
+        <h1>How Lifeline Charity Platform Works</h1>
+        <p class="muted">Clear steps for patients (campaign creators), donors, and our internal teams.</p>
+
+        <section style="margin-top:1.5rem">
+            <h2>1. Patient / Campaign Creator Process</h2>
+            <ol>
+                <li><strong>Create an account</strong> — The patient or a family member creates a profile on Lifeline.</li>
+                <li><strong>Start a fundraising campaign</strong> — Fill in patient name, disease/medical problem, required amount, hospital name, treatment cost estimate, and upload medical documents (prescription, reports, doctor’s recommendation).</li>
+                <li><strong>Verification by Lifeline Team</strong> — Our Verification Team checks the uploaded documents and may contact the hospital/doctor to confirm authenticity.</li>
+                <li><strong>Campaign goes live</strong> — Once verified, the campaign is published on Lifeline and visible to donors.</li>
+                <li><strong>Share campaign link</strong> — Patients/families can share the campaign on Facebook, WhatsApp, Instagram, SMS, Messenger, and other channels.</li>
+                <li><strong>Receive donations</strong> — Donors contribute using card, mobile banking (bKash/Nagad/Rocket), or bank transfer.</li>
+                <li><strong>Withdraw funds</strong> — To withdraw, the patient uploads bank details, hospital bills, and identity proof; the Lifeline Team processes withdrawals securely.</li>
+            </ol>
+        </section>
+
+        <section style="margin-top:1.5rem">
+            <h2>2. Donor Process</h2>
+            <ol>
+                <li><strong>Visit the platform</strong> — Donors browse Lifeline to find verified campaigns.</li>
+                <li><strong>Browse verified campaigns</strong> — Donors see real, checked, and genuine patient cases with supporting documents.</li>
+                <li><strong>Select a campaign</strong> — Read patient story, medical problem, required amount, proof documents, and treatment updates.</li>
+                <li><strong>Donate easily</strong> — Donate via card, mobile banking (BD options), or bank transfer.</li>
+                <li><strong>Receive donation receipt</strong> — Donors receive a digital receipt for confirmation.</li>
+                <li><strong>Track campaign progress</strong> — Donors can view total collected amount, remaining gap, and treatment updates.</li>
+            </ol>
+        </section>
+
+        <section style="margin-top:1.5rem">
+            <h2>3. Lifeline Charity Platform Team Process</h2>
+            <p>Our internal teams coordinate to ensure campaigns are genuine, supported, and funds are handled securely.</p>
+
+            <h3>A. Verification Team</h3>
+            <ul>
+                <li>Review medical prescriptions and treatment cost estimates.</li>
+                <li>Verify patient identity and hospital details.</li>
+                <li>Detect and reject fraudulent cases.</li>
+            </ul>
+
+            <h3>B. Campaign Support Team</h3>
+            <ul>
+                <li>Help patients write their story and upload correct documents.</li>
+                <li>Suggest ways to increase visibility and donations.</li>
+                <li>Support families during the fundraising process.</li>
+            </ul>
+
+            <h3>C. Donation & Payment Team</h3>
+            <ul>
+                <li>Manage payments and ensure secure donation processing.</li>
+                <li>Monitor for suspicious activity and process withdrawals to patient/hospital accounts.</li>
+            </ul>
+
+            <h3>D. Technical / Developer Team</h3>
+            <ul>
+                <li>Maintain the website, fix bugs, and add features.</li>
+                <li>Manage servers, database, and performance/security.</li>
+            </ul>
+
+            <h3>E. Marketing & Outreach Team</h3>
+            <ul>
+                <li>Promote genuine patient stories and bring more donors to the platform.</li>
+                <li>Build partnerships with hospitals, NGOs and health organizations.</li>
+            </ul>
+        </section>
+
+        <p style="margin-top:2rem;color:#555;font-size:.95rem">If you want this page linked in the top navigation or echoed into footers, I can propagate that across site pages next.</p>
+    </main>
+
+    <footer class="footer" style="margin-top:2rem;padding:2rem 1rem;">
+        <div class="container">
+            <p>&copy; 2024 Lifeline Charity Platform</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/navigation.js"></script>
+</body>
+</html>

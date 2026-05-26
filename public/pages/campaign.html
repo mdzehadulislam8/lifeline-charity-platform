@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Campaign - Lifeline</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/theme-bd.css">
+  <link rel="stylesheet" href="../css/theme-ketto.css">
+  <style>
+    .container{max-width:1000px;margin:2rem auto;padding:1rem}
+    .progress{background:#eee;border-radius:8px;overflow:hidden;height:22px}
+    .progress-fill{height:100%;background:linear-gradient(90deg,#27ae60,#2ecc71);width:0%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+    .files-list{margin-top:1rem}
+    .donate-panel{border:1px solid #eee;padding:1rem;border-radius:8px}
+    .muted{color:#666}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container navbar-brand">
+      <a href="../index.html" class="logo">Lifeline</a>
+      <ul class="nav-menu">
+        <li id="nav-user" style="display:none;">
+          <a href="#" onclick="showUserMenu(event)" class="btn-nav user-avatar">
+            <div id="user-name"></div>
+            <div id="user-menu" style="display:none;">
+              <a href="profile.html">My Profile</a>
+              <a href="campaigns.html">Campaigns</a>
+              <a href="../submission.html">Submit Case</a>
+              <a href="#" onclick="logoutUser()">Logout</a>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <main class="container">
+    <div id="campaignRoot">
+      <h1 id="campaignTitle">Loading...</h1>
+      <p id="campaignMeta" class="muted"></p>
+
+      <div style="display:flex;gap:2rem;flex-wrap:wrap">
+        <div style="flex:1;min-width:320px">
+          <div id="campaignDesc"></div>
+
+          <h4>Proof Documents</h4>
+          <div class="files-list" id="filesList">No documents</div>
+        </div>
+
+        <aside style="width:320px">
+          <div class="donate-panel">
+            <div style="margin-bottom:1rem">
+              <div class="muted">Goal</div>
+              <div id="goalAmount">৳0</div>
+            </div>
+            <div style="margin-bottom:1rem">
+              <div class="muted">Collected</div>
+              <div id="collectedAmount">৳0</div>
+            </div>
+            <div class="progress" aria-hidden="true">
+              <div id="progressFill" class="progress-fill">0%</div>
+            </div>
+
+            <hr style="margin:1rem 0">
+
+            <form id="donationForm">
+              <label>Amount (BDT)</label>
+              <input type="number" id="donationAmount" min="1" required class="input-block">
+              <label style="margin-top:.5rem">Name (optional)</label>
+              <input type="text" id="donorName" class="input-block">
+              <label style="margin-top:.5rem">Email (optional)</label>
+              <input type="email" id="donorEmail" class="input-block">
+              <label style="margin-top:.5rem">Payment Method</label>
+              <select id="paymentMethod" class="input-block">
+                <option value="card">Card</option>
+                <option value="bank">Bank Transfer</option>
+              </select>
+              <button class="btn btn-primary" type="submit" style="margin-top:1rem">Donate</button>
+            </form>
+            <div id="donationMsg" style="margin-top:.75rem"></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="../js/campaign.js"></script>
+  <script src="../js/navigation.js"></script>
+</body>
+</html>

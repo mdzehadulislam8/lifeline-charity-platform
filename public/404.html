@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Lifeline Charity Platform</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/modern.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .error-container {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #d32f2f, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+            line-height: 1;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .error-title {
+            font-size: 2rem;
+            color: #333;
+            margin: 1rem 0;
+            font-weight: 700;
+        }
+
+        .error-message {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .error-icon {
+            font-size: 5rem;
+            color: #d32f2f;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .btn-error {
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-home {
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+            color: white;
+        }
+
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(211, 47, 47, 0.3);
+        }
+
+        .btn-back {
+            background: white;
+            color: #d32f2f;
+            border: 2px solid #d32f2f;
+        }
+
+        .btn-back:hover {
+            background: #f8f9fa;
+            transform: translateY(-3px);
+        }
+
+        .error-suggestions {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: left;
+            margin-top: 2rem;
+        }
+
+        .error-suggestions h3 {
+            color: #d32f2f;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .error-suggestions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .error-suggestions li {
+            padding: 0.75rem 0;
+            color: #666;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .error-suggestions li:last-child {
+            border-bottom: none;
+        }
+
+        .error-suggestions li i {
+            color: #d32f2f;
+            font-size: 1.2rem;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        body {
+            padding-top: 70px;
+        }
+
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 5rem;
+            }
+
+            .error-title {
+                font-size: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-error {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="index.html" class="logo">
+                    <span class="logo-mark"><img src="images/logo-charity-2.png" alt="Lifeline logo" style="height: 40px;"/></span>
+                    <span class="logo-text">Lifeline</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Error Content -->
+    <div class="error-container">
+        <div class="error-icon">
+            <i class="fas fa-map"></i>
+        </div>
+
+        <h1 class="error-code">404</h1>
+
+        <h2 class="error-title">Page Not Found</h2>
+
+        <p class="error-message">
+            We couldn't find the page you're looking for. It might have been moved or the link might be broken.
+        </p>
+
+        <div class="action-buttons">
+            <a href="index.html" class="btn-error btn-home">
+                <i class="fas fa-home"></i> Go to Home
+            </a>
+            <button class="btn-error btn-back" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i> Go Back
+            </button>
+        </div>
+
+        <div class="error-suggestions">
+            <h3><i class="fas fa-lightbulb"></i> What you can do:</h3>
+            <ul>
+                <li><i class="fas fa-check"></i> Check if the URL is correct</li>
+                <li><i class="fas fa-home"></i> <a href="index.html" style="color: #d32f2f; text-decoration: none; font-weight: 600;">Return to the homepage</a></li>
+                <li><i class="fas fa-search"></i> <a href="pages/cases.html" style="color: #d32f2f; text-decoration: none; font-weight: 600;">Browse all medical cases</a></li>
+                <li><i class="fas fa-envelope"></i> <a href="pages/contact.html" style="color: #d32f2f; text-decoration: none; font-weight: 600;">Contact our support team</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="js/navigation.js"></script>
+    <script>
+        function goBack() {
+            if (window.navigationManager) {
+                window.navigationManager.goBack();
+            } else if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

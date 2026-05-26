@@ -1,0 +1,23 @@
+// ====================================
+// DONATIONS ROUTES
+// ====================================
+
+const express = require('express');
+const router = express.Router();
+const donationController = require('../controllers/donationController');
+const { authenticate, optionalAuthenticate } = require('../middleware/auth');
+
+// Public routes
+// Specific routes first to avoid conflicts with parameterized routes
+router.get('/user/history', authenticate, donationController.getDonationHistory);
+
+// Allow donations from both authenticated and anonymous users (optional auth)
+router.post('/', optionalAuthenticate, donationController.createDonation);
+
+// Get donations for a case (query param)
+router.get('/', donationController.getDonationsForCase);
+
+// Send thank you message (patient to donor)
+router.post('/:donationId/thank-you', authenticate, donationController.sendThankYouMessage);
+
+module.exports = router;

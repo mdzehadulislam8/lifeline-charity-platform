@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donor Dashboard - Lifeline Charity Platform</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dashboard-container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .dashboard-tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid #e9ecef; }
+        .dashboard-tabs button { padding: 1rem 1.5rem; border: none; background: none; cursor: pointer; font-weight: 600; border-bottom: 3px solid transparent; transition: all 0.3s; }
+        .dashboard-tabs button.active { color: #d32f2f; border-bottom-color: #d32f2f; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .form-section { background: #f8f9fa; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.75rem; border: 2px solid #e9ecef; border-radius: 8px; font-family: inherit; }
+        .form-group textarea { min-height: 100px; resize: vertical; }
+        .requests-grid { display: grid; gap: 1.5rem; }
+        .request-card { background: #ffffff; border: 1px solid #e9ecef; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .request-status { display: inline-block; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.85rem; margin-bottom: 1rem; }
+        .request-status.pending { background: #fff3cd; color: #856404; }
+        .request-status.accepted { background: #d4edda; color: #155724; }
+        .request-status.rejected { background: #f8d7da; color: #721c24; }
+        .request-actions { display: flex; gap: 1rem; margin-top: 1rem; }
+        .request-actions button { padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        .btn-accept { background: #27ae60; color: white; }
+        .btn-accept:hover { background: #229954; }
+        .btn-reject { background: #e74c3c; color: white; }
+        .btn-reject:hover { background: #c0392b; }
+        .request-info { margin-bottom: 1rem; }
+        .request-info strong { display: block; color: #495057; font-size: 0.9rem; margin-bottom: 0.25rem; }
+        .no-data { text-align: center; padding: 2rem; color: #6c757d; }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="../index.html" class="logo">
+                    <span class="logo-mark"><img src="../images/logo-charity-2.png" alt="Lifeline logo"/></span>
+                    <span class="logo-text">Lifeline</span>
+                </a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="blood-donation.html">Blood Donation</a></li>
+                <li id="nav-user">
+                    <a href="#" onclick="showUserMenu(event)" class="btn-nav user-avatar">
+                        <div id="user-name">User</div>
+                        <div id="user-menu" style="display:none;">
+                            <a href="profile.html">My Profile</a>
+                            <a href="blood-donor-dashboard.html">Blood Donor Dashboard</a>
+                            <a href="#" onclick="logoutUser()">Logout</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Blood Donor Dashboard</h1>
+            <p>Manage your blood donations and requests</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Tabs -->
+        <div class="dashboard-tabs">
+            <button class="tab-btn active" onclick="switchTab('create-post')">
+                <i class="fas fa-plus"></i> Create Blood Post
+            </button>
+            <button class="tab-btn" onclick="switchTab('incoming-requests')">
+                <i class="fas fa-inbox"></i> Incoming Requests <span class="badge" id="requestCount">0</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('donation-history')">
+                <i class="fas fa-history"></i> Donation History
+            </button>
+        </div>
+
+        <!-- Tab 1: Create Blood Post -->
+        <div id="create-post" class="tab-content active">
+            <div class="form-section">
+                <h2>Create Blood Availability Post</h2>
+                <p>Post your blood availability so patients in need can reach out to you.</p>
+                
+                <form id="bloodPostForm">
+                    <div class="form-group">
+                        <label><i class="fas fa-tint"></i> Your Blood Type</label>
+                        <input type="text" id="bloodTypeDisplay" disabled placeholder="Loading...">
+                        <small>This is auto-filled from your profile</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-map-marker-alt"></i> Available Location</label>
+                        <input type="text" id="location" placeholder="Enter your location (e.g., Dhaka, Hospital Name)" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar"></i> Available Date</label>
+                        <input type="date" id="availableDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-info-circle"></i> Additional Notes (Optional)</label>
+                        <textarea id="notes" placeholder="Any additional information (e.g., health conditions, restrictions)"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-plus-circle"></i> Post Blood Availability
+                    </button>
+                </form>
+
+                <div id="postSuccess" style="display:none; margin-top: 2rem; padding: 1rem; background: #d4edda; border-radius: 8px; color: #155724;">
+                    <i class="fas fa-check-circle"></i> Your blood post is now live! Patients looking for your blood type can find and request from you.
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Incoming Requests -->
+        <div id="incoming-requests" class="tab-content">
+            <h2>Incoming Blood Requests</h2>
+            <div class="requests-grid" id="requestsList">
+                <div class="no-data">
+                    <i class="fas fa-inbox" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+                    <p>No incoming requests yet</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Donation History -->
+        <div id="donation-history" class="tab-content">
+            <h2>Your Donation History</h2>
+            <div class="requests-grid" id="historyList">
+                <div class="no-data">
+                    <i class="fas fa-history" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+                    <p>No donation history yet</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Lifeline Charity Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/blood-donor-dashboard.js"></script>
+</body>
+</html>

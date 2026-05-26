@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Blood Availability | Lifeline Charity Platform</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/modern.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        .poster-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .poster-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .poster-header h1 {
+            color: #e74c3c;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .poster-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .hero-message {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
+        }
+
+        .hero-message h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .hero-message p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .form-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .form-section {
+            margin-bottom: 35px;
+        }
+
+        .form-section h3 {
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .blood-type-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .blood-option {
+            position: relative;
+        }
+
+        .blood-option input[type="radio"] {
+            display: none;
+        }
+
+        .blood-label {
+            display: block;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 18px;
+            transition: all 0.3s;
+            background: white;
+            color: #333;
+        }
+
+        .blood-option input[type="radio"]:checked + .blood-label {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+            transform: scale(1.05);
+        }
+
+        .blood-option input[type="radio"]:hover + .blood-label {
+            border-color: #e74c3c;
+        }
+
+        .rh-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .rh-option input[type="radio"] {
+            display: none;
+        }
+
+        .rh-label {
+            display: block;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 18px;
+            transition: all 0.3s;
+            background: white;
+            color: #333;
+        }
+
+        .rh-option input[type="radio"]:checked + .rh-label {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            color: #1565c0;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-submit {
+            flex: 1;
+            padding: 14px 30px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-reset {
+            padding: 14px 30px;
+            background: #ecf0f1;
+            color: #333;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-reset:hover {
+            background: #bdc3c7;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #e74c3c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn-submit.loading {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .btn-submit.loading:hover {
+            background: #95a5a6;
+            transform: none;
+        }
+
+        .benefits-section {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 40px;
+        }
+
+        .benefits-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 15px;
+        }
+
+        .benefit-icon {
+            font-size: 24px;
+            min-width: 30px;
+        }
+
+        .benefit-text {
+            flex: 1;
+        }
+
+        .benefit-text h4 {
+            margin: 0 0 5px 0;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .benefit-text p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .form-card {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .blood-type-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn-submit,
+            .btn-reset {
+                width: 100%;
+            }
+
+            .poster-header h1 {
+                font-size: 24px;
+            }
+
+            .hero-message h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1>Lifeline Platform</h1>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="blood-donation.html" class="active">Blood Donation</a>
+                <a href="../index.html" onclick="logout(event)">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="poster-container">
+        <div class="poster-header">
+            <h1>Post Your Blood Availability</h1>
+            <p>Help save lives by posting your blood availability</p>
+        </div>
+
+        <div class="hero-message">
+            <h2>🩸 Your Blood Can Save Lives</h2>
+            <p>Post your blood availability and connect with patients who need you. Every donation matters!</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            ✓ Your blood availability has been posted successfully! Patients can now see your post.
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="form-card">
+            <form id="bloodPosterForm">
+                <div class="info-box">
+                    ℹ️ Your blood availability will be visible to patients who need your blood type. You can update or remove your post anytime.
+                </div>
+
+                <!-- Blood Type Section -->
+                <div class="form-section">
+                    <h3>Your Blood Type</h3>
+                    
+                    <div class="form-group">
+                        <label>Blood Type <span class="required">*</span></label>
+                        <div class="blood-type-selector">
+                            <div class="blood-option">
+                                <input type="radio" id="o_type" name="bloodType" value="O" required>
+                                <label for="o_type" class="blood-label">O</label>
+                            </div>
+                            <div class="blood-option">
+                                <input type="radio" id="a_type" name="bloodType" value="A" required>
+                                <label for="a_type" class="blood-label">A</label>
+                            </div>
+                            <div class="blood-option">
+                                <input type="radio" id="b_type" name="bloodType" value="B" required>
+                                <label for="b_type" class="blood-label">B</label>
+                            </div>
+                            <div class="blood-option">
+                                <input type="radio" id="ab_type" name="bloodType" value="AB" required>
+                                <label for="ab_type" class="blood-label">AB</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>RH Factor <span class="required">*</span></label>
+                        <div class="rh-selector">
+                            <div class="rh-option">
+                                <input type="radio" id="rh_positive" name="rhFactor" value="+" required>
+                                <label for="rh_positive" class="rh-label">Positive (+)</label>
+                            </div>
+                            <div class="rh-option">
+                                <input type="radio" id="rh_negative" name="rhFactor" value="-" required>
+                                <label for="rh_negative" class="rh-label">Negative (-)</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Availability Section -->
+                <div class="form-section">
+                    <h3>Availability Details</h3>
+                    
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label for="location">Location/City <span class="required">*</span></label>
+                            <input type="text" id="location" name="location" placeholder="e.g., Dhaka, Chittagong" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="lastDonationDate">Last Donation Date</label>
+                            <input type="date" id="lastDonationDate" name="lastDonationDate">
+                            <small style="color: #999; margin-top: 5px;">When did you last donate blood?</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="availableUnits">Available Units</label>
+                            <input type="number" id="availableUnits" name="availableUnits" min="1" max="10" placeholder="e.g., 1-10" value="1">
+                            <small style="color: #999; margin-top: 5px;">1 unit = 450ml</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Health & Requirements Section -->
+                <div class="form-section">
+                    <h3>Health Information</h3>
+                    
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Do you have any health conditions? (Optional)</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="condition_none" name="conditions" value="healthy">
+                                    <label for="condition_none">No health conditions</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="condition_diabetes" name="conditions" value="diabetes">
+                                    <label for="condition_diabetes">Diabetes</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="condition_hypertension" name="conditions" value="hypertension">
+                                    <label for="condition_hypertension">Hypertension</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label for="notes">Additional Notes (Optional)</label>
+                            <textarea id="notes" name="notes" placeholder="Any other relevant information..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Availability Status -->
+                <div class="form-section">
+                    <h3>Availability Status</h3>
+                    
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="isAvailable" name="isAvailable" checked>
+                        <label for="isAvailable">I am available to donate now</label>
+                    </div>
+                    <small style="color: #999; display: block; margin-top: 8px;">Uncheck if you are not currently available for donation</small>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="button-group">
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <span id="submitText">Post Your Blood Availability</span>
+                    </button>
+                    <button type="reset" class="btn-reset">Clear Form</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="benefits-section">
+            <h3>Why Post Your Blood Availability?</h3>
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <div class="benefit-icon">❤️</div>
+                    <div class="benefit-text">
+                        <h4>Save Lives</h4>
+                        <p>Your blood can save up to 3 lives. Make an impact today.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🔗</div>
+                    <div class="benefit-text">
+                        <h4>Direct Connection</h4>
+                        <p>Connect directly with patients who need your blood type.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">📱</div>
+                    <div class="benefit-text">
+                        <h4>Easy Management</h4>
+                        <p>Update your availability anytime from your dashboard.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🏥</div>
+                    <div class="benefit-text">
+                        <h4>Help Patients</h4>
+                        <p>Be there for patients in urgent need of blood.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/blood-availability-poster.js"></script>
+</body>
+</html>
