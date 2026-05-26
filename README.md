@@ -372,7 +372,7 @@ This project is licensed under the MIT License - see LICENSE file for details.
 
 ## Authors
 
-- **Md. Zehadul Islam** - Lead Developer & Full-stack Development
+- **Md. Zehadul Islam** - Lead Developer & Full-stack Development (Frontend + Backend)
 - **Abdullah Al Moin** - Backend Developer & Database Architecture
 - **Abu Hurayra** - Frontend Developer & UI/UX Development
 
